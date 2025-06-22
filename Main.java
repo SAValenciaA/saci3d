@@ -79,7 +79,7 @@ public class Main {
           main();
           break;
         default:
-          System.out.println("Esa no es una opcion valida");
+          System.out.println("Esa no es una opcion permitida");
           return;
       }
     } else {
@@ -87,3 +87,5 @@ public class Main {
     }
   }
 }
+
+
