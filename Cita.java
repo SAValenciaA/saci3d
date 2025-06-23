@@ -1,4 +1,4 @@
-public class Cita {
+public class Cita  {
     private int duracion;
     private Impresora numImpresora;
     private String nombre;
@@ -33,6 +33,10 @@ public class Cita {
 
     public int getPesoEnGramos() {
         return pesoEnGramos;
+    }
+
+    public String toString(){
+        return getNombre()+" "+getDescripcion()+"\n";
     }
 
 }

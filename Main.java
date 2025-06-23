@@ -1,19 +1,38 @@
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    public static Map<String, String>[] getUsers() {
-        Map<String, String>[] usuarios = new HashMap[] {
-            new HashMap<>() {{ put("id", "52567"); put("usuario", "sevalenciaa"); put("nombre", "Sergio Valencia"); put("contraseña", "rockyou"); put("rol", "profesor"); }},
-            new HashMap<>() {{ put("id", "81352"); put("usuario", "jlopezm"); put("nombre", "Juliana Lopez"); put("contraseña", "password123"); put("rol", "estudiante"); }},
-            new HashMap<>() {{ put("id", "90211"); put("usuario", "cmartinez"); put("nombre", "Carlos Martinez"); put("contraseña", "1234abcd"); put("rol", "profesor"); }}
-            // Agrega más si quieres...
+    //arreglo de usuarios
+    //una plantilla para cada tipo de usuario
+
+    public static Usuario[] getUsuarios() {
+    Usuario[] usuarios = new Usuario[] {
+        new Usuario("1001", "Sergio Valencia", "sevalenciaa", "rockyou"),
+        new Usuario("1002", "Juliana Lopez", "jlopezm", "password123"),
+        new Usuario("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
+        new Usuario("1004", "Ana Vasquez", "anavasq", "ana2024"),
+        new Usuario("1005", "Luis Rodriguez", "lrodriguez", "qwerty")
         };
         return usuarios;
     }
+    //arreglo de citas 
+    //sugerencia: cita debe heredar de evento, una plantilla para cada tipo de evento
+    public static ArrayList<Cita> getSchedule() {
+         List<Cita> Eventos =List.of(
+            new Cita(120, new Impresora(2,4), "Engranaje motor", "Pieza PLA para motor NEMA 17", 150),
+            new Cita(90, new Impresora(5,4), "Carcasa sensor", "Caja protectora para sensor ultrasónico", 85),
+            new Cita(180, new Impresora(3,4), "Soporte brazo robot", "Soporte estructural en PETG", 220),
+            new Cita(60, new Impresora(4,4), "Tapa roscada", "Prototipo de tapa con rosca M20x2.5", 45),
+            new Cita(150, new Impresora(1,4), "Base de dron", "Estructura base en ABS resistente", 300)
+         );
+         ArrayList<Cita> citas=new ArrayList<>(Eventos);
+        return citas;
+    }
 
+  
     public static int options(Scanner sc) {
         System.out.println("Opciones");
         System.out.println(" 1) Consultar citas");
@@ -23,20 +42,21 @@ public class Main {
         return sc.nextInt();
     }
 
-    public static boolean login(String username, String password) {
-        for (Map<String, String> usuario : getUsers()) {
-            if (usuario.get("usuario").equals(username)) {
-                if (usuario.get("contraseña").equals(password)) {
-                    System.out.println("¡Usuario encontrado! Hola señor(a) " + usuario.get("nombre"));
-                    return true;
+    public static int login(String username, String password) {
+        Usuario [] usuarios=getUsuarios();
+        for (int i=0;i<usuarios.length; i++){
+            if (usuarios[i].getUsuario().equals(username)) {
+                if (usuarios[i].getContraseña().equals(password)) {
+                    System.out.println("¡Usuario encontrado! Hola señor(a) " +username);
+                    return i;
                 } else {
                     System.out.println("Contraseña incorrecta.");
-                    return false;
+                    return -1;
                 }
             }
         }
         System.out.println("Usuario no encontrado.");
-        return false;
+        return -1;
     }
 
     public static void main(String[] args) {
@@ -47,21 +67,16 @@ public class Main {
 
         System.out.print("Contraseña: ");
         String password = sc.nextLine();
-
-        if (login(username, password)) {
+        int busqueda=login(username, password);
+        if (busqueda!=-1) {
             int option = options(sc);
+            Usuario usuario= getUsuarios()[busqueda];
+
             switch (option) {
-                case 1:
-                    System.out.println("Consultala tú mismo."); // Aquí iría lógica real
-                    break;
-                case 2:
-                    System.out.println("Agéndala tú mismo."); // Aquí iría lógica real
-                    break;
-                case 3:
-                    System.out.println("Saliendo...");
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
+                case 1 -> usuario.consultar(getSchedule());
+                case 2 -> usuario.agendar();
+                case 3 -> System.out.println("Saliendo...");
+                default -> System.out.println("Opción no válida.");
             }
         }
     }
