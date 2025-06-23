@@ -1,11 +1,11 @@
-public class usuarios{
+public class Usuario{
     private int id;
     private String nombre;
     private String usuario;
     private boolean citaDisponible;
     private Cita proximaCita;
 
-    public usuarios(int id,String nombre,String usuario,boolean citaDisponible){
+    public Usuario(int id,String nombre,String usuario,boolean citaDisponible){
         this.id=id;
         this.nombre=nombre;
         this.usuario=usuario;
