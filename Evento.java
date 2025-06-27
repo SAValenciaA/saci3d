@@ -1,16 +1,35 @@
-public class Evento {
-    private int duracion;
-    private Impresora numImpresora;
-    private String nombre;
-    private String descripcion;
-    private int pesoEnGramos;
 
-    // Constructor
-    public Evento(int duracion, Impresora numImpresora, String nombre, String descripcion, int pesoEnGramos) {
-        this.duracion = duracion;
-        this.numImpresora = numImpresora;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.pesoEnGramos = pesoEnGramos;
+import  java.time.LocalDateTime;
+abstract class Evento {
+    private String idEvento;
+    private LocalDateTime  fechaInicio;
+    private LocalDateTime fechaFinal;
+    private  int duracion;
+    private Usuario creador;
+
+    public static int numEventos;
+
+    public Evento(LocalDateTime  fechaInicio, Usuario creador,int duracion){
+        numEventos++;
+        this.idEvento= 2025+""+numEventos;
+        this.duracion=duracion;
+        this.fechaInicio=fechaInicio;
+        this.fechaFinal=fechaInicio.plusMinutes(duracion);
+        this.creador=creador;
+    }
+    abstract void estadoActual();
+
+    public String getId(){
+        return idEvento;
+    }
+    public LocalDateTime getFechaInicio(){
+        return fechaInicio;
+    }
+    public LocalDateTime getFechaFinal(){
+        return fechaFinal;
+    }
+
+    public int getDuracion() {
+        return duracion;
     }
 }
