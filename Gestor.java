@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Gestor {
     private Usuario[] listaUsuarios;
-    private Impresora[] listaImpresoras;
+    private ArrayList<Impresora> listaImpresoras;
     private ArrayList<Cita> listaCitas;
     
 
@@ -28,21 +28,22 @@ public class Gestor {
         return usuarios;
     }
 
-    private Impresora[] getImpresora(){
-        Impresora[] impresoras = new Impresora[]{
-            new Impresora("A", 5),
-            new Impresora("B", 3),
-            new Impresora("C", 4),
-        };
+    private ArrayList<Impresora> getImpresora(){
+        ArrayList<Impresora> impresoras = new ArrayList<>();
+        
+            impresoras.add(new Impresora("A", 5));
+            impresoras.add(new Impresora("B", 3));
+            impresoras.add(new Impresora("C", 4));
+        
         return impresoras;
         
     }
     private ArrayList<Cita> getCitas() {  ArrayList<Cita> citas = new ArrayList<>();
 
         // Agregar objetos Cita
-        citas.add(new Cita(listaImpresoras[0], 23.5, LocalDateTime.of(2025, 6, 28, 10, 0), 60, listaUsuarios[0]));
-        citas.add(new Cita(listaImpresoras[1], 45.0, LocalDateTime.of(2025, 6, 28, 12, 0), 90, listaUsuarios[1]));
-        citas.add(new Cita(listaImpresoras[2], 30.0, LocalDateTime.of(2025, 6, 29, 9, 30), 45, listaUsuarios[2]));
+        citas.add(new Cita(listaImpresoras.get(0), 23.5, LocalDateTime.of(2025, 6, 28, 10, 0), 60, listaUsuarios[0]));
+        citas.add(new Cita(listaImpresoras.get(1), 45.0, LocalDateTime.of(2025, 6, 28, 12, 0), 90, listaUsuarios[1]));
+        citas.add(new Cita(listaImpresoras.get(2), 30.0, LocalDateTime.of(2025, 6, 29, 9, 30), 45, listaUsuarios[2]));
         
         return citas;
     }
@@ -155,7 +156,7 @@ public class Gestor {
                         break;
 
                     case "2":
-                        estudiante.agendar(sc,listaCitas, List.of(listaImpresoras));
+                        estudiante.agendar(sc,listaCitas, listaImpresoras);
                         rep=false;
                         break;
 
@@ -194,7 +195,7 @@ public class Gestor {
                         break;
 
                     case "2":
-                        profesor.agendar(sc,listaCitas, List.of(listaImpresoras));
+                        profesor.agendar(sc,listaCitas, listaImpresoras);
                         rep=false;
                         break;
 
@@ -237,7 +238,7 @@ public class Gestor {
                         break;
 
                     case "2":
-                        administrador.agendar(sc,listaCitas, List.of(listaImpresoras));
+                        administrador.agendar(sc,listaCitas, listaImpresoras);
                         rep=false;
                         break;
 
@@ -268,7 +269,7 @@ public class Gestor {
                         rep=false;
                         break;
                     case "8":
-                        administrador.agregarImpresora(sc, List.of(listaImpresoras));
+                        administrador.agregarImpresora(sc, listaImpresoras);
                         rep=false;
                         break;
                     case "9":

@@ -23,12 +23,12 @@ public class Administrador extends Usuario implements interfazAnunciar {
         }
         
     }
-    public void cambiarDispo(Impresora[]listaImpresoras,String idImpresora){
+    public void cambiarDispo(ArrayList<Impresora> listaImpresoras,String idImpresora){
         boolean hecho= false;
-        for(int i = 0; i < listaImpresoras.length; i++) {
-            if(listaImpresoras[i].getId().equals(idImpresora)){
+        for(int i = 0; i < listaImpresoras.size(); i++) {
+            if(listaImpresoras.get(i).getId().equals(idImpresora)){
                 System.out.println("cambio hecho!");
-                listaImpresoras[i].setDisponible(true);
+                listaImpresoras.get(i).setDisponible(true);
                 hecho=true;
             }
         }
@@ -42,6 +42,19 @@ public class Administrador extends Usuario implements interfazAnunciar {
     public void cambiarTope(){
     }
     public void agregarImpresora(Scanner sc,  List<Impresora> impresoras){
+        System.out.println(impresoras);
         
+        System.out.println("Ingrese el Id de la nueva impresora:");
+        String id = sc.nextLine();
+                
+        System.out.println("Ingrese su capacidad de citas:");
+        int cantidad = sc.nextInt();
+        sc.nextLine(); // limpiar salto
+
+        Impresora nuevaImpresora = new Impresora(id, cantidad);
+
+        impresoras.add(nuevaImpresora);
+
+
     }
 }

@@ -2,15 +2,23 @@ public class Impresora implements interfazGetId{
     final private String idImpresora ;
     private boolean disponible;
     private Cita[] proximasCitas;
-    public static double filamento;
+    private int capacidadMax;
+    public static double filamento = 1000;
 
 
     public Impresora(String idImpresora, int capacidadMaxCitas) {
         this.idImpresora = idImpresora;
         this.disponible = true;
         this.proximasCitas = new Cita[capacidadMaxCitas]; 
-        this.filamento=100;
+        capacidadMax = capacidadMaxCitas;
+        
     }
+    // to string 
+
+    public String toString() {
+        return idImpresora + "Disponible: "+ disponible + "Filamento: "+ filamento;
+    }
+
 
     public double getFilamento(){
         return filamento;
