@@ -27,10 +27,10 @@ public class Cita extends Evento  {
     }
 
     public String toString(){
-        return getUsuario()+" "+getDuracion()+"\n";
+        return getCreador()+" "+getDuracion()+"\n";
     }
 
-   
+
     public void estadoActual(){
         System.out.println();
     }
