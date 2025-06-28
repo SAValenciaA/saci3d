@@ -21,18 +21,18 @@ public class Main {
     //arreglo de citas 
     //sugerencia: cita debe heredar de evento, una plantilla para cada tipo de evento
     public static ArrayList<Cita> getSchedule() {
-         List<Cita> Eventos =List.of(
+        List<Cita> Eventos =List.of(
             new Cita(120, new Impresora(2,4), "Engranaje motor", "Pieza PLA para motor NEMA 17", 150),
             new Cita(90, new Impresora(5,4), "Carcasa sensor", "Caja protectora para sensor ultrasónico", 85),
             new Cita(180, new Impresora(3,4), "Soporte brazo robot", "Soporte estructural en PETG", 220),
             new Cita(60, new Impresora(4,4), "Tapa roscada", "Prototipo de tapa con rosca M20x2.5", 45),
             new Cita(150, new Impresora(1,4), "Base de dron", "Estructura base en ABS resistente", 300)
-         );
-         ArrayList<Cita> citas=new ArrayList<>(Eventos);
+        );
+        ArrayList<Cita> citas=new ArrayList<>(Eventos);
         return citas;
     }
 
-  
+
     public static int options(Scanner sc) {
         System.out.println("Opciones");
         System.out.println(" 1) Consultar citas");
@@ -59,32 +59,6 @@ public class Main {
         return -1;
     }
 
-<<<<<<< HEAD
-    Scanner sc = new Scanner(System.in);
-    System.out.print("Usuario: ");
-    username = sc.nextLine();
-    System.out.print("Contraseña: ");
-    password = sc.nextLine();
-    
-    if(login(username,password)) {
-      option = options();
-      switch(option) {
-        case 1:
-          System.out.println("Consultala tu mismo!!!!"); // cambiar
-          break;
-        case 2:
-          System.out.println("Agendala tu mismo!!!!"); // cambiar
-          break;
-        case 3:
-          main();
-          break;
-        default:
-          System.out.println("Esa no es una opcion permitida");
-          return;
-      }
-    } else {
-      
-=======
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -105,7 +79,6 @@ public class Main {
                 default -> System.out.println("Opción no válida.");
             }
         }
->>>>>>> Implementacion-de-Usuarios
     }
 }
 
