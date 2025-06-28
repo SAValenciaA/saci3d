@@ -280,7 +280,7 @@ public class Gestor {
                     case "7":
                         System.out.println("Indica el tope");
                         int top = Integer.parseInt(sc.nextLine());
-                        administrador.cambiarTope(top);
+                        administrador.cambiarTopeSemanal(top);
                         rep = false;
                         break;
 

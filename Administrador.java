@@ -40,10 +40,15 @@ public class Administrador extends Usuario implements interfazAnunciar {
 
     public void anunciar() {
     }
-    
-    public void cambiarTope(int actualizarTope){
+
+    public void cambiarTopeSemanal(int actualizarTope){
         Usuario.tope=actualizarTope;
     }
+
+    public void cambiarTopeDiario(int actualizarTope){
+        Usuario.tope=actualizarTope;
+    }
+
     public void agregarImpresora(Scanner sc,  List<Impresora> impresoras){
         System.out.println(impresoras);
         

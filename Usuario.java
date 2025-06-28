@@ -12,6 +12,8 @@ public class Usuario implements interfazGetId {
     private ArrayList<String> idCitasAgendadas;
     private String contraseña;
     protected static int tope=1;
+    protected static int topeDiario = 60;
+    public int topeDiarioUsuario = 0;
     // Constructor
     public Usuario(String id, String nombre, String usuario, String contraseña) {
 
@@ -68,7 +70,7 @@ public class Usuario implements interfazGetId {
     }
 
     public void agendar(Scanner sc, ArrayList<Cita> citas,  ArrayList<Impresora> impresoras) {
-        if(idCitasAgendadas.size()<Usuario.tope){
+        if(idCitasAgendadas.size()<Usuario.tope && topeDiarioUsuario < topeDiario){ // verifica el limite semanal y diario 
             try {
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime fechaInicio = null;
@@ -92,9 +94,32 @@ public class Usuario implements interfazGetId {
                 }
                 
 
-                System.out.println("Ingrese la duración en minutos:");
-                int duracion = sc.nextInt();
-                sc.nextLine(); // limpiar salto
+                //Verificar limite diario 
+
+                int duracion = -1;
+                while (true) {
+                    System.out.println("Ingrese la duración en minutos (o 0 para cancelar):");
+                    try {
+                        duracion = sc.nextInt();
+                        sc.nextLine(); // limpiar salto
+
+                        if (duracion == 0) {
+                            System.out.println("Agendamiento cancelado.");
+                            return;
+                        }
+
+                        if (topeDiarioUsuario + duracion > topeDiario) {
+                            System.out.println("La duración excede tu tope diario restante (" + (topeDiario - topeDiarioUsuario) + " minutos).");
+                        } else {
+                            break; // duración válida
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Valor no válido. Intenta de nuevo.");
+                        sc.nextLine(); // limpiar mal input
+                    }
+                }
+                topeDiarioUsuario += duracion;
 
 
                 // verificar disponibilidad 
