@@ -43,7 +43,7 @@ public class Gestor {
         citas.add(new Cita(listaImpresoras[0], 23.5, LocalDateTime.of(2025, 6, 28, 10, 0), 60, listaUsuarios[0]));
         citas.add(new Cita(listaImpresoras[1], 45.0, LocalDateTime.of(2025, 6, 28, 12, 0), 90, listaUsuarios[1]));
         citas.add(new Cita(listaImpresoras[2], 30.0, LocalDateTime.of(2025, 6, 29, 9, 30), 45, listaUsuarios[2]));
-
+        
         return citas;
     }
 
@@ -160,13 +160,13 @@ public class Gestor {
                         break;
 
                     case "3":
-                        estudiante.cancelar();
-                        rep=false;
+                        System.out.println("ingresa el id de tu cita a cancelar");
+                        String idCitaPropia=sc.nextLine();
+                        estudiante.cancelar(listaCitas,idCitaPropia);
                         break;
                     case "4":
-                        rep=false;
-                        menu=false;
-                        break;
+                        
+                        return;
 
                     default:
                         System.out.println("Opción no válida.");
@@ -199,18 +199,20 @@ public class Gestor {
                         rep=false;
                         break;
 
+
                     case "3":
-                        profesor.cancelar();
-                        rep=false;
+                        System.out.print("Ingresa el id de la cita a cancelar: ");
+                        String idCitaPropia = sc.nextLine();
+                        profesor.cancelar(listaCitas, idCitaPropia);
+                        rep = false;
                         break;
                     case "4":
                         profesor.anunciar();
                         rep=false;
                         break;
                     case "5":
-                        rep=false;
-                        menu=false;
-                        break;
+                    
+                        return;
 
                     default:
                         System.out.println("Opción no válida.");
@@ -244,7 +246,9 @@ public class Gestor {
                         break;
 
                     case "3":
-                        administrador.cancelar();
+                        System.out.println("ingresa el id de tu cita a cancelar");
+                        String idCitaPropia=sc.nextLine();
+                        administrador.cancelar(listaCitas,idCitaPropia);
                         rep=false;
                         break;
                     case "4":
@@ -253,11 +257,10 @@ public class Gestor {
                         break;
                     case "5":
 
-                        System.out.println("Ingresa el id de la cita a cancelar");
-                        String idCita=sc.nextLine();
-                        
-                        administrador.cancelarCitas(listaCitas,idCita);
-                        rep=false;
+                        System.out.print("Ingresa el id de la cita a cancelar: ");
+                        String idCita = sc.nextLine();
+                        administrador.cancelarCitas(listaCitas, idCita);
+                        rep = false;
                     
                         break;
                     case "6":
@@ -267,17 +270,19 @@ public class Gestor {
                         rep=false;
                         break;
                     case "7":
-                        administrador.cambiarTope();
-                        rep=false;
+                        System.out.println("Indica el tope");
+                        int top = Integer.parseInt(sc.nextLine());
+                        administrador.cambiarTope(top);
+                        rep = false;
                         break;
+
                     case "8":
-                        administrador.agregarImpresora();
+                        administrador.agregarImpresora(sc, List.of(listaImpresoras));
                         rep=false;
                         break;
                     case "9":
-                        menu=false;
-                        rep=false;
-                        break;
+                        
+                        return;
 
                     default:
                         System.out.println("Opción no válida.");
