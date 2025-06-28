@@ -1,65 +1,65 @@
-import java.util.HashMap;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-  public Map<String, String>[] getUsers() {
-      return Map<String, String>[] usuarios = new HashMap[] {
-        new HashMap<>() {{ put("id", "52567"); put("usuario", "sevalenciaa"); put("nombre", "Sergio Valencia"); put("contraseña", "rockyou"); put("rol", "profesor");; }},
-        new HashMap<>() {{ put("id", "81352"); put("usuario", "jlopezm"); put("nombre", "Juliana Lopez"); put("contraseña", "password123"); put("rol", "estudiante"); }},
-        new HashMap<>() {{ put("id", "90211"); put("usuario", "cmartinez"); put("nombre", "Carlos Martinez"); put("contraseña", "1234abcd"); put("rol", "profesor"); }},
-        new HashMap<>() {{ put("id", "73485"); put("usuario", "anavasq"); put("nombre", "Ana Vasquez"); put("contraseña", "ana2024"); put("rol", "estudiante"); }},
-        new HashMap<>() {{ put("id", "61134"); put("usuario", "lrodriguez"); put("nombre", "Luis Rodriguez"); put("contraseña", "qwerty"); put("rol", "profesor"); }},
-        new HashMap<>() {{ put("id", "47390"); put("usuario", "mjimenez"); put("nombre", "Maria Jimenez"); put("contraseña", "pass321"); put("rol", "estudiante"); }},
-        new HashMap<>() {{ put("id", "29876"); put("usuario", "dtorres"); put("nombre", "Daniel Torres"); put("contraseña", "dt2025"); put("rol", "profesor"); }},
-        new HashMap<>() {{ put("id", "15892"); put("usuario", "fsandoval"); put("nombre", "Fabiana Sandoval"); put("contraseña", "fabi123"); put("rol", "estudiante"); }},
-        new HashMap<>() {{ put("id", "68745"); put("usuario", "rmeneses"); put("nombre", "Ricardo Meneses"); put("contraseña", "rmene456"); put("rol", "profesor"); }}
-      };
-  }
-  
-  public Map<String, String>[] getSchedule() {
-      return Map<String, String>[] agendas = new HashMap[] {
-        new HashMap<>() {{ put("id", "AG001"); put("Fecha", "2025-06-23 09:00"); put("duracion", "120"); put("Peso", "150"); put("nombre", "Engranaje motor"); put("descripcion", "Pieza PLA para motor NEMA 17"); put("Creador", "sevalenciaa"); put("Impresora", "2"); }},
-        new HashMap<>() {{ put("id", "AG002"); put("Fecha", "2025-06-23 11:30"); put("duracion", "90"); put("Peso", "85"); put("nombre", "Carcasa sensor"); put("descripcion", "Caja protectora para sensor ultrasónico"); put("Creador", "jlopezm"); put("Impresora", "5"); }},
-        new HashMap<>() {{ put("id", "AG003"); put("Fecha", "2025-06-23 14:00"); put("duracion", "180"); put("Peso", "220"); put("nombre", "Soporte brazo robot"); put("descripcion", "Soporte estructural en PETG"); put("Creador", "cmartinez"); put("Impresora", "2"); }},
-        new HashMap<>() {{ put("id", "AG004"); put("Fecha", "2025-06-24 08:00"); put("duracion", "60"); put("Peso", "45"); put("nombre", "Tapa roscada"); put("descripcion", "Prototipo de tapa con rosca M20x2.5"); put("Creador", "anavasq"); put("Impresora", "4"); }},        
-        new HashMap<>() {{ put("id", "AG005"); put("Fecha", "2025-06-24 10:00"); put("duracion", "150"); put("Peso", "300"); put("nombre", "Base de dron"); put("descripcion", "Estructura base en ABS resistente"); put("Creador", "lrodriguez"); put("Impresora", "1"); }}
-      }; 
-  }
+    //arreglo de usuarios
+    //una plantilla para cada tipo de usuario
 
-  public int options() {
-    System.out.println("Opciones");
-    System.out.println(" 1) Consultar citas");
-    System.out.println(" 2) Agendar citas");
-    System.out.println(" 3) salir");
-    System.out.print("Selecciones una opcion: ");
-    return sc.nextInt();
-  }
-  
-
-  public bool login(String username, String password) {
-    for(Hashmap<>() usuario: getUsers()) {
-      if (usuario.get("usuario") == username) {
-        if(usuario.get("contraseña") == password){
-          System.out.println("Usuario encontradro! Hola señor " + username);
-          return true;
-        } else {
-          System.out.println("Contraseña incorrecta");
-        }
-      }
+    public static Usuario[] getUsuarios() {
+    Usuario[] usuarios = new Usuario[] {
+        new Usuario("1001", "Sergio Valencia", "sevalenciaa", "rockyou"),
+        new Usuario("1002", "Juliana Lopez", "jlopezm", "password123"),
+        new Usuario("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
+        new Usuario("1004", "Ana Vasquez", "anavasq", "ana2024"),
+        new Usuario("1005", "Luis Rodriguez", "lrodriguez", "qwerty")
+        };
+        return usuarios;
     }
-    return false;
-  }
-  
-  public static void main(String[] args) {
-    
-    
-    //for(Hashmap<>() usuario: usuarios) {
-    //  if (usuario.get("usuario") == usuarioInput) {
-        //cromprobat contraseña
-    //  }
-    //}
+    //arreglo de citas 
+    //sugerencia: cita debe heredar de evento, una plantilla para cada tipo de evento
+    public static ArrayList<Cita> getSchedule() {
+         List<Cita> Eventos =List.of(
+            new Cita(120, new Impresora(2,4), "Engranaje motor", "Pieza PLA para motor NEMA 17", 150),
+            new Cita(90, new Impresora(5,4), "Carcasa sensor", "Caja protectora para sensor ultrasónico", 85),
+            new Cita(180, new Impresora(3,4), "Soporte brazo robot", "Soporte estructural en PETG", 220),
+            new Cita(60, new Impresora(4,4), "Tapa roscada", "Prototipo de tapa con rosca M20x2.5", 45),
+            new Cita(150, new Impresora(1,4), "Base de dron", "Estructura base en ABS resistente", 300)
+         );
+         ArrayList<Cita> citas=new ArrayList<>(Eventos);
+        return citas;
+    }
 
+  
+    public static int options(Scanner sc) {
+        System.out.println("Opciones");
+        System.out.println(" 1) Consultar citas");
+        System.out.println(" 2) Agendar citas");
+        System.out.println(" 3) Salir");
+        System.out.print("Seleccione una opción: ");
+        return sc.nextInt();
+    }
+
+    public static int login(String username, String password) {
+        Usuario [] usuarios=getUsuarios();
+        for (int i=0;i<usuarios.length; i++){
+            if (usuarios[i].getUsuario().equals(username)) {
+                if (usuarios[i].getContraseña().equals(password)) {
+                    System.out.println("¡Usuario encontrado! Hola señor(a) " +username);
+                    return i;
+                } else {
+                    System.out.println("Contraseña incorrecta.");
+                    return -1;
+                }
+            }
+        }
+        System.out.println("Usuario no encontrado.");
+        return -1;
+    }
+
+<<<<<<< HEAD
     Scanner sc = new Scanner(System.in);
     System.out.print("Usuario: ");
     username = sc.nextLine();
@@ -84,8 +84,29 @@ public class Main {
       }
     } else {
       
+=======
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Usuario: ");
+        String username = sc.nextLine();
+
+        System.out.print("Contraseña: ");
+        String password = sc.nextLine();
+        int busqueda=login(username, password);
+        if (busqueda!=-1) {
+            int option = options(sc);
+            Usuario usuario= getUsuarios()[busqueda];
+
+            switch (option) {
+                case 1 -> usuario.consultar(getSchedule());
+                case 2 -> usuario.agendar();
+                case 3 -> System.out.println("Saliendo...");
+                default -> System.out.println("Opción no válida.");
+            }
+        }
+>>>>>>> Implementacion-de-Usuarios
     }
-  }
 }
 
 
