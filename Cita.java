@@ -3,7 +3,6 @@ import java.time.LocalDateTime;
 
 public class Cita extends Evento  {
     private Impresora numImpresora;
-    private String usuario;
     private double pesoFilamento;
 
     // Constructor
@@ -18,16 +17,13 @@ public class Cita extends Evento  {
         return numImpresora;
     }
 
-    public String getUsuario(){
-        return usuario;
-    }
 
     public double  getPesoEnGramos() {
         return pesoFilamento;
     }
 
     public String toString(){
-        return getUsuario()+" "+getDuracion()+"\n";
+        return getCreador()+" "+getDuracion()+"\n";
     }
 
    

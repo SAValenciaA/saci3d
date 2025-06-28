@@ -5,7 +5,7 @@ abstract class Evento {
     private LocalDateTime  fechaInicio;
     private LocalDateTime fechaFinal;
     private  int duracion;
-    private Usuario creador;
+    private String creador;
 
     public static int numEventos;
 
@@ -15,12 +15,15 @@ abstract class Evento {
         this.duracion=duracion;
         this.fechaInicio=fechaInicio;
         this.fechaFinal=fechaInicio.plusMinutes(duracion);
-        this.creador=creador;
+        this.creador=creador.getUsuario();
     }
     abstract void estadoActual();
 
     public String getId(){
         return idEvento;
+    }
+    public String getCreador(){
+        return creador;
     }
     public LocalDateTime getFechaInicio(){
         return fechaInicio;
