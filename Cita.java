@@ -30,7 +30,7 @@ public class Cita extends Evento  {
     @Override
     public String toString() {
         actualizarEstado(); 
-        return getCreador() + " " + getFechaInicio() + " " + "Hasta: " + getFechaFinal()+ " " + getId() + "\n";
+        return getCreador() + " " + getFechaInicio() + " " + "Hasta: " + getFechaFinal()+ "  Id: " + getId() + "\n";
     }
 
 

@@ -18,6 +18,8 @@ public class Gestor {
     }
 
     // listas de manejo para pruebas
+    // 2025-06-19 12:00
+    // 2025-06-30 12:00
 
     private ArrayList<Anuncio> getAnuncios(){
         ArrayList<Anuncio> Anuncios = new ArrayList<>();
@@ -52,7 +54,7 @@ public class Gestor {
     private ArrayList<Cita> getCitas() {  ArrayList<Cita> citas = new ArrayList<>();
 
         // Agregar objetos Cita
-        citas.add(new Cita(listaImpresoras.get(0), 23.5, LocalDateTime.of(2025, 6, 28, 10, 0), 60, listaUsuarios[0]));
+        citas.add(new Cita(listaImpresoras.get(0), 23.5, LocalDateTime.of(2025, 6, 28, 13, 0), 60, listaUsuarios[0]));
         citas.add(new Cita(listaImpresoras.get(1), 45.0, LocalDateTime.of(2025, 6, 28, 12, 0), 90, listaUsuarios[1]));
         citas.add(new Cita(listaImpresoras.get(2), 30.0, LocalDateTime.of(2025, 6, 29, 9, 30), 45, listaUsuarios[2]));
         

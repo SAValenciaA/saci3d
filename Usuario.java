@@ -13,6 +13,7 @@ public class Usuario implements interfazGetId {
     private String contraseña;
     protected static int tope=1;
     protected static int topeDiario = 60;
+    
     public int topeDiarioUsuario = 0;
     // Constructor
     public Usuario(String id, String nombre, String usuario, String contraseña) {
