@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,13 +7,21 @@ public class Gestor {
     private Usuario[] listaUsuarios;
     private ArrayList<Impresora> listaImpresoras;
     private ArrayList<Cita> listaCitas;
+    private ArrayList<Anuncio> listaAnuncios;
     
 
     public Gestor() {
         this.listaUsuarios= getUsuarios();
         this.listaImpresoras = getImpresora();
         this.listaCitas = getCitas();
-        
+        this.listaAnuncios=getAnuncios();
+    }
+
+    private ArrayList<Anuncio> getAnuncios(){
+        ArrayList<Anuncio> Anuncios = new ArrayList<>();
+        Anuncios.add(new Anuncio("Mantenimiento el lunes", LocalDateTime.now(), 60, listaUsuarios[0]));
+        Anuncios.add(new Anuncio("Cambio de horario", LocalDateTime.now(), 30, listaUsuarios[1]));
+        return Anuncios;
     }
 
     private Usuario[] getUsuarios() {
@@ -211,7 +220,22 @@ public class Gestor {
                         rep = false;
                         break;
                     case "4":
-                        profesor.anunciar();
+
+                        System.out.print("Escribe el mensaje del anuncio: ");
+                        String mensaje = sc.nextLine();
+
+                        System.out.print("Escribe la fecha de inicio (formato yyyy-MM-dd HH:mm): ");
+                        String fechaStr = sc.nextLine();
+                        LocalDateTime fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+                        System.out.print("Escribe la duración (en minutos): ");
+                        int duracion = Integer.parseInt(sc.nextLine());
+
+                        //implementar logica para dar el mensaje a varias personas
+                        System.out.print("indica el lugar del usuario ");
+                        int index = Integer.parseInt(sc.nextLine());
+
+                        profesor.anunciar(mensaje, listaAnuncios, fechaInicio, duracion, listaUsuarios[index]);
                         rep=false;
                         break;
                     case "5":
@@ -260,9 +284,25 @@ public class Gestor {
                         rep=false;
                         break;
                     case "4":
-                        administrador.anunciar();
+
+                        System.out.print("Escribe el mensaje del anuncio: ");
+                        String mensaje = sc.nextLine();
+
+                        System.out.print("Escribe la fecha de inicio (formato yyyy-MM-dd HH:mm): ");
+                        String fechaStr = sc.nextLine();
+                        LocalDateTime fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+                        System.out.print("Escribe la duración (en minutos): ");
+                        int duracion = Integer.parseInt(sc.nextLine());
+
+                        //implementar logica para dar el mensaje a varias personas
+                        System.out.print("indica el lugar del usuario ");
+                        int index = Integer.parseInt(sc.nextLine());
+
+                        administrador.anunciar(mensaje, listaAnuncios, fechaInicio, duracion, listaUsuarios[index]);
                         rep=false;
                         break;
+
                     case "5":
 
                         System.out.print("Ingresa el id de la cita a cancelar: ");
@@ -296,6 +336,8 @@ public class Gestor {
                         return;
                     default:
                         System.out.println("Opción no válida.");
+                        rep=false;
+                        break;
                 }
             }
 

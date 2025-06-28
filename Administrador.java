@@ -1,7 +1,8 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-public class Administrador extends Usuario implements interfazAnunciar {
+public class Administrador extends Usuario  {
 
     public Administrador(String id, String nombre, String usuario, String contraseña) {
         super(id, nombre, usuario,contraseña);
@@ -23,6 +24,7 @@ public class Administrador extends Usuario implements interfazAnunciar {
         }
         
     }
+    
     public void cambiarDispo(ArrayList<Impresora> listaImpresoras,String idImpresora){
         boolean hecho= false;
         for(int i = 0; i < listaImpresoras.size(); i++) {
@@ -37,8 +39,9 @@ public class Administrador extends Usuario implements interfazAnunciar {
         }
             
     }
-    public void anunciar() {
-    }
+    
+    
+    
     public void cambiarTope(int actualizarTope){
         Usuario.tope=actualizarTope;
     }
@@ -58,5 +61,10 @@ public class Administrador extends Usuario implements interfazAnunciar {
 
 
     }
+
+    public void anunciar(String mensaje, ArrayList<Anuncio> listaAnuncios,LocalDateTime fechaInicio, int duracion,Usuario destinatario) {
+        listaAnuncios.add(new Anuncio(mensaje,fechaInicio,duracion,destinatario));
+    }
+    
     
 }

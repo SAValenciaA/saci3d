@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import  java.time.LocalDateTime;
+import java.time.LocalDateTime;
+import  java.util.ArrayList;
 abstract class Evento implements  interfazGetId{
     private String idEvento;
     private LocalDateTime  fechaInicio;
@@ -8,7 +8,7 @@ abstract class Evento implements  interfazGetId{
     private String creador;
     private boolean estadoActual;
 
-    public static int numEventos;
+    public static int numEventos=0;
 
     public Evento(LocalDateTime  fechaInicio, Usuario creador,int duracion){
         numEventos++;
