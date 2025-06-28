@@ -40,10 +40,21 @@ public class Usuario implements interfazGetId {
     public String getId() {
         return id;
     }
-    public void getIdCitas(){
-        for(String cita:idCitasAgendadas){
-            System.out.println(cita);
+
+    public void getMisCitas(ArrayList<Cita> citas){
+        int contador=0;
+        if(idCitasAgendadas.size()!=0){
+            for(int i=0;i<idCitasAgendadas.size();i++){
+                for(int j=0;j<citas.size();j++){
+                    if(idCitasAgendadas.get(i).equals(citas.get(j).getId())){
+                        System.out.println(citas.get(j));
+                    }
+                }
+            }
+        }else{
+            System.out.println("no tienes citas agendadas");
         }
+        
     }
 
 

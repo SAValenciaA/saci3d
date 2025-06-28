@@ -1,6 +1,5 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Gestor {
@@ -142,7 +141,7 @@ public class Gestor {
         boolean menu= true;
         while(menu){
             System.out.println("Hola "+estudiante.getNombre()+" ¿que deseas hacer el dia de hoy?");
-            System.out.println("1) consultar\n2) agendar\n3) cancelar\n4) salir");
+            System.out.println("1) consultar\n2) agendar\n3) cancelar\n4)ver mis citas\n5)salir");
             String opt=sc.nextLine();
         
             boolean rep=true;
@@ -166,6 +165,10 @@ public class Gestor {
                         estudiante.cancelar(listaCitas,idCitaPropia);
                         break;
                     case "4":
+                        estudiante.getMisCitas(listaCitas);
+                        rep=false;
+                        break;
+                    case "5":
                         
                         return;
 
@@ -183,7 +186,7 @@ public class Gestor {
         boolean menu= true;
         while(menu){
             System.out.println("Hola profesor "+profesor.getNombre()+" ¿que deseas hacer el dia de hoy?");
-            System.out.println("1) consultar\n2) agendar\n3) cancelar\n4) anunciar\n5)salir");
+            System.out.println("1) consultar\n2) agendar\n3) cancelar\n4) anunciar\n5)ver mis citas\n6)salir");
             String opt=sc.nextLine();
             boolean rep=true;
             while(rep){
@@ -212,6 +215,10 @@ public class Gestor {
                         rep=false;
                         break;
                     case "5":
+                        profesor.getMisCitas(listaCitas);
+                        rep=false;
+                        break;
+                    case "6":
                     
                         return;
 
@@ -229,7 +236,7 @@ public class Gestor {
         boolean menu= true;
         while(menu){
             System.out.println("Hola profesor "+administrador.getNombre()+" ¿que deseas hacer el dia de hoy?");
-            System.out.println("1) consultar\n2) agendar\n3) cancelar mi cita\n4) anunciar\n5)cancelar citas\n6)cambiar disponibilidad impresora\n7)cambiar tope de impresion \n8)agregar impresora\n9)salir");
+            System.out.println("1) consultar\n2) agendar\n3) cancelar mi cita\n4) anunciar\n5)cancelar citas\n6)cambiar disponibilidad impresora\n7)cambiar tope de impresion \n8)agregar impresora\n9)ver mis citas\n10)salir");
             String opt=sc.nextLine();
             boolean rep=true;
             while(rep){
@@ -282,9 +289,11 @@ public class Gestor {
                         rep=false;
                         break;
                     case "9":
-                        
+                        administrador.getMisCitas(listaCitas);
+                        rep=false;
+                        break;
+                    case "10":
                         return;
-
                     default:
                         System.out.println("Opción no válida.");
                 }
