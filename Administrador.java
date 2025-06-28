@@ -37,8 +37,10 @@ public class Administrador extends Usuario implements interfazAnunciar {
         }
             
     }
+
     public void anunciar() {
     }
+    
     public void cambiarTope(int actualizarTope){
         Usuario.tope=actualizarTope;
     }

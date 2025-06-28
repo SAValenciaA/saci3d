@@ -67,4 +67,19 @@ abstract class Evento implements  interfazGetId{
             }
         }
     }
+
+    public static boolean seSuperpone(LocalDateTime nuevaInicio, LocalDateTime nuevaFin, ArrayList<Cita> listaCitas) {
+    for (Cita c : listaCitas) {
+        if (c == null || !c.getEstado()) continue;  // Ignora citas eliminadas o pasadas
+
+        LocalDateTime inicioExistente = c.getFechaInicio();
+        LocalDateTime finExistente = c.getFechaFinal();
+
+        // Se superponen si ambos intervalos se cruzan
+        if (nuevaInicio.isBefore(finExistente) && nuevaFin.isAfter(inicioExistente)) {
+            return true;
+        }
+    }
+    return false;
+}
 }

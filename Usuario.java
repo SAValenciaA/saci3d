@@ -87,6 +87,15 @@ public class Usuario implements interfazGetId {
                 int duracion = sc.nextInt();
                 sc.nextLine(); // limpiar salto
 
+
+                // verificar disponibilidad 
+
+                LocalDateTime fechaFin = fechaInicio.plusMinutes(duracion);
+                if (Evento.seSuperpone(fechaInicio, fechaFin, citas)) {
+                    System.out.println("Ya hay una cita programada en ese horario. Intente con otro horario.");
+                    return;
+                }
+
                 System.out.println("Ingrese el peso del filamento:");
                 double peso = sc.nextDouble();
                 sc.nextLine(); // limpiar salto
@@ -122,7 +131,7 @@ public class Usuario implements interfazGetId {
             }
         }
         else{
-            System.out.println("Haz llegado al tope de citas");
+            System.out.println("Has alcanzado el número máximo de reservas/cancelaciones esta semana.");
         }
             
     }
