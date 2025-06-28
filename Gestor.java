@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Gestor {
@@ -21,7 +22,8 @@ public class Gestor {
         new Administrador("1002", "Juliana Lopez", "jlopezm", "password123"),
         new Estudiante("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
         new Estudiante("1004", "Ana Vasquez", "anavasq", "ana2024"),
-        new Profesor("1005", "Luis Rodriguez", "lrodriguez", "qwerty")
+        new Profesor("1005", "Luis Rodriguez", "lrodriguez", "qwerty"),
+        new Estudiante("1006", "Alejandro Muñoz", "a", "a")
         };
         return usuarios;
     }
@@ -141,6 +143,7 @@ public class Gestor {
             System.out.println("Hola "+estudiante.getNombre()+" ¿que deseas hacer el dia de hoy?");
             System.out.println("1) consultar\n2) agendar\n3) cancelar\n4) salir");
             String opt=sc.nextLine();
+        
             boolean rep=true;
             while(rep){
 
@@ -152,7 +155,7 @@ public class Gestor {
                         break;
 
                     case "2":
-                        estudiante.agendar();
+                        estudiante.agendar(sc,listaCitas, List.of(listaImpresoras));
                         rep=false;
                         break;
 
@@ -192,7 +195,7 @@ public class Gestor {
                         break;
 
                     case "2":
-                        profesor.agendar();
+                        profesor.agendar(sc,listaCitas, List.of(listaImpresoras));
                         rep=false;
                         break;
 
@@ -236,7 +239,7 @@ public class Gestor {
                         break;
 
                     case "2":
-                        administrador.agendar();
+                        administrador.agendar(sc,listaCitas, List.of(listaImpresoras));
                         rep=false;
                         break;
 
@@ -256,7 +259,7 @@ public class Gestor {
 
                         administrador.cancelarCitas(listaCitas,idCita);
                         rep=false;
-                       
+                    
                         break;
                     case "6":
                         administrador.cambiarDispo();

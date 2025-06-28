@@ -26,7 +26,7 @@ public class Cita extends Evento  {
         return getCreador()+" "+getDuracion()+"\n";
     }
 
-   
+
     public void estadoActual(){
         System.out.println();
     }
