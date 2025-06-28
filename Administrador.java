@@ -1,13 +1,20 @@
-public class Administrador extends Usuario {
+public class Administrador extends Usuario implements interfazAnunciar {
 
     public Administrador(String id, String nombre, String usuario, String contraseña) {
         super(id, nombre, usuario,contraseña);
     }
 
-    public void cancelarcitas(Cita cita) {
+    public void cancelarCitas() {
         
     }
+    public void cambiarDispo(){
 
-    public void publicarAnuncios() {
+    }
+    public void anunciar() {
+    }
+    public void cambiarTope(){
+    }
+    public void agregarImpresora(){
+
     }
 }
