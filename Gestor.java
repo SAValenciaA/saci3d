@@ -23,7 +23,7 @@ public class Gestor {
         new Estudiante("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
         new Estudiante("1004", "Ana Vasquez", "anavasq", "ana2024"),
         new Profesor("1005", "Luis Rodriguez", "lrodriguez", "qwerty"),
-        new Estudiante("1006", "Alejandro Muñoz", "a", "a")
+        new Administrador("1006", "Alejandro Muñoz", "a", "a")
         };
         return usuarios;
     }

@@ -23,7 +23,7 @@ public class Cita extends Evento  {
     }
 
     public String toString(){
-        return getCreador()+" "+getDuracion()+"\n";
+        return getCreador()+" "+getDuracion()+" "+getId()+"\n";
     }
 
 

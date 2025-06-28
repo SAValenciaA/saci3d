@@ -8,7 +8,7 @@ public class Administrador extends Usuario implements interfazAnunciar {
     public void cancelarCitas(ArrayList<Cita> citas,String idCita) {
         
         for (int i = 0; i < citas.size(); i++) {
-            if(citas.get(i).equals(idCita)){
+            if(citas.get(i).getId().equals(idCita)){
                 citas.remove(i);
                 System.out.println("cita eliminada con exito");
             }
