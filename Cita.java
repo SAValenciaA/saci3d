@@ -26,7 +26,7 @@ public class Cita extends Evento  {
 
     public String toString() {
         actualizarEstado(); 
-        return getCreador() + " " + getDuracion() + " " + getId() + "\n";
+        return getCreador() + " " + getFechaInicio() + " " + "Hasta: " + getFechaFinal()+ " " + getId() + "\n";
     }
 
 

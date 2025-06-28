@@ -9,16 +9,16 @@ public class Usuario implements interfazGetId {
     private String id;
     private String nombre;
     private String usuario;
-    private String idCitaAgendada;
+    private ArrayList<String> idCitasAgendadas;
     private String contraseña;
-
+    protected static int tope=1;
     // Constructor
     public Usuario(String id, String nombre, String usuario, String contraseña) {
 
         this.id = id;
         this.nombre = nombre;
         this.usuario = usuario;
-        this.idCitaAgendada = "000000";
+        this.idCitasAgendadas = new ArrayList<>();
         this.contraseña=contraseña;
         
     }
@@ -40,8 +40,10 @@ public class Usuario implements interfazGetId {
     public String getId() {
         return id;
     }
-    public String getIdCita(){
-        return idCitaAgendada;
+    public void getIdCitas(){
+        for(String cita:idCitasAgendadas){
+            System.out.println(cita);
+        }
     }
 
 
@@ -57,7 +59,7 @@ public class Usuario implements interfazGetId {
     }
 
     public void agendar(Scanner sc, List<Cita> citas,  List<Impresora> impresoras) {
-
+        if(idCitasAgendadas.size()<Usuario.tope){
             try {
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime fechaInicio = null;
@@ -92,7 +94,7 @@ public class Usuario implements interfazGetId {
                 // Buscar impresoras
                 Impresora impresoraAsignada = null;
                 for (Impresora imp : impresoras) {
-                    if (imp.getFilamento() >= peso && imp.agendarCita(null)) { // Verificamos que tenga espacio y filamento
+                    if (imp.getFilamento() >= peso && imp.agendarCita(null) && imp.isDisponible()) { // Verificamos que tenga espacio y filamento
                         impresoraAsignada = imp;
                         break;
                     }
@@ -107,7 +109,7 @@ public class Usuario implements interfazGetId {
                 // Crear la cita
                 Cita nuevaCita = new Cita(impresoraAsignada, peso, fechaInicio, duracion, this);
 
-                this.idCitaAgendada = nuevaCita.getId();
+                idCitasAgendadas.add(nuevaCita.getId());
 
                 citas.add(nuevaCita);
 
@@ -118,15 +120,37 @@ public class Usuario implements interfazGetId {
             } catch (Exception e) {
                 System.out.println("Error al ingresar los datos. Verifica el formato.");
             }
+        }
+        else{
+            System.out.println("Haz llegado al tope de citas");
+        }
+            
     }
 
-    public void cancelar() {
-        System.out.println("prueba cancelar");
+    public void cancelar(ArrayList<Cita> citas,String idCita) {
+        boolean toBe=false;
+        for(int j=0;j<idCitasAgendadas.size();j++){
+            if(idCita.equals(idCitasAgendadas.get(j))){
+                toBe=true;
+            }
+        }
+        if(toBe==true){
+            int indice = -1;
+            for (int i = 0; i < citas.size(); i++) {
+                if(citas.get(i).getId().equals(idCita)){
+                    indice = i;
+                    citas.get(i).getNumImpresora().setDisponible();
+                }
+            }
+            citas.remove(indice);
+            System.out.println("cita eliminada con exito");
+            }
+        
+        else{
+            System.out.println("No tienes agendada esta cita");
+        }
     }
-
-    public void setIdCita(String cita){
-        idCitaAgendada = cita;
-    }
-
-
 }
+
+
+

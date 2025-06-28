@@ -12,14 +12,14 @@ public class Administrador extends Usuario implements interfazAnunciar {
         for (int i = 0; i < citas.size(); i++) {
             if(citas.get(i).getId().equals(idCita)){
                 indice = i;
-                citas.get(i).getNumImpresora().setDisponible(true);
+                citas.get(i).getNumImpresora().setDisponible();
             }
         }
-        if (indice > 0){
+        if (indice >= 0){
             citas.remove(indice);
-            System.out.println("cita eliminada con exito");
+            System.out.println("La cita ha sido cancelada exitosamente.");
         }else{
-            System.out.println("Esa cita no existe");
+            System.out.println("Esta cita no puede ser cancelada.");
         }
         
     }
@@ -28,7 +28,7 @@ public class Administrador extends Usuario implements interfazAnunciar {
         for(int i = 0; i < listaImpresoras.size(); i++) {
             if(listaImpresoras.get(i).getId().equals(idImpresora)){
                 System.out.println("cambio hecho!");
-                listaImpresoras.get(i).setDisponible(true);
+                listaImpresoras.get(i).setDisponible();
                 hecho=true;
             }
         }
@@ -39,7 +39,8 @@ public class Administrador extends Usuario implements interfazAnunciar {
     }
     public void anunciar() {
     }
-    public void cambiarTope(){
+    public void cambiarTope(int actualizarTope){
+        Usuario.tope=actualizarTope;
     }
     public void agregarImpresora(Scanner sc,  List<Impresora> impresoras){
         System.out.println(impresoras);
@@ -57,4 +58,5 @@ public class Administrador extends Usuario implements interfazAnunciar {
 
 
     }
+    
 }

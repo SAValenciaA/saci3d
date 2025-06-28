@@ -161,8 +161,9 @@ public class Gestor {
                         break;
 
                     case "3":
-                        estudiante.cancelar();
-                        rep=false;
+                        System.out.println("ingresa el id de tu cita a cancelar");
+                        String idCitaPropia=sc.nextLine();
+                        estudiante.cancelar(listaCitas,idCitaPropia);
                         break;
                     case "4":
                         
@@ -199,9 +200,12 @@ public class Gestor {
                         rep=false;
                         break;
 
+
                     case "3":
-                        profesor.cancelar();
-                        rep=false;
+                        System.out.print("Ingresa el id de la cita a cancelar: ");
+                        String idCitaPropia = sc.nextLine();
+                        profesor.cancelar(listaCitas, idCitaPropia);
+                        rep = false;
                         break;
                     case "4":
                         profesor.anunciar();
@@ -243,7 +247,9 @@ public class Gestor {
                         break;
 
                     case "3":
-                        administrador.cancelar();
+                        System.out.println("ingresa el id de tu cita a cancelar");
+                        String idCitaPropia=sc.nextLine();
+                        administrador.cancelar(listaCitas,idCitaPropia);
                         rep=false;
                         break;
                     case "4":
@@ -265,9 +271,12 @@ public class Gestor {
                         rep=false;
                         break;
                     case "7":
-                        administrador.cambiarTope();
-                        rep=false;
+                        System.out.println("Indica el tope");
+                        int top = Integer.parseInt(sc.nextLine());
+                        administrador.cambiarTope(top);
+                        rep = false;
                         break;
+
                     case "8":
                         administrador.agregarImpresora(sc, listaImpresoras);
                         rep=false;
