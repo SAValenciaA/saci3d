@@ -23,7 +23,7 @@ abstract class Evento {
         return idEvento;
     }
     public String getCreador(){
-        return idEvento;
+        return creador;
     }
     public LocalDateTime getFechaInicio(){
         return fechaInicio;
