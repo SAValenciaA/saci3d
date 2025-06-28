@@ -1,20 +1,25 @@
-public class Impresora {
+public class Impresora implements interfazGetId{
     final private String idImpresora ;
     private boolean disponible;
     private Cita[] proximasCitas;
-    public static double filamento;
+    private int capacidadMax;
+    public static double filamento = 1000;
 
 
     public Impresora(String idImpresora, int capacidadMaxCitas) {
         this.idImpresora = idImpresora;
         this.disponible = true;
         this.proximasCitas = new Cita[capacidadMaxCitas]; 
-        this.filamento=100;
+        capacidadMax = capacidadMaxCitas;
+        
     }
+    
+    // getters
 
     public double getFilamento(){
         return filamento;
     }
+    
     public boolean enUso() {
         for (Cita cita : proximasCitas) {
             if (cita != null) return true;
@@ -22,7 +27,7 @@ public class Impresora {
         return false;
     }
 
-    public String getIdImpresora() {
+    public String getId() {
         return idImpresora;
     }
 
@@ -33,13 +38,15 @@ public class Impresora {
     public Cita[] getProximasCitas() {
         return proximasCitas;
     }
-
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
+    
+    // set y calculos utiles
+    
     public static void minusFila(double valor){
         filamento-=valor;
+    }
+
+    public void setDisponible() {
+    this.disponible = !disponible;
     }
 
     public boolean agendarCita(Cita nuevaCita) {
@@ -50,5 +57,11 @@ public class Impresora {
             }
         }
         return false; 
+    }
+
+    // to string 
+    
+    public String toString() {
+        return idImpresora + "Disponible: "+ disponible + "Filamento: "+ filamento;
     }
 }
