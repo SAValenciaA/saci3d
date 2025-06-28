@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 import  java.time.LocalDateTime;
 abstract class Evento {
     private String idEvento;
@@ -6,6 +6,7 @@ abstract class Evento {
     private LocalDateTime fechaFinal;
     private  int duracion;
     private String creador;
+    private boolean estadoActual;
 
     public static int numEventos;
 
@@ -16,8 +17,13 @@ abstract class Evento {
         this.fechaInicio=fechaInicio;
         this.fechaFinal=fechaInicio.plusMinutes(duracion);
         this.creador=creador.getUsuario();
+        this.estadoActual = true;
     }
-    abstract void estadoActual();
+
+    public void estadoActual(boolean estado){
+        this.estadoActual = estado;
+    }
+
 
     public String getId(){
         return idEvento;
@@ -34,5 +40,31 @@ abstract class Evento {
 
     public int getDuracion() {
         return duracion;
+    }
+    public boolean getEstado(){
+        return estadoActual;
+    }
+
+
+
+    // funciones de validacion de fechas
+
+    public static boolean validarFecha(LocalDateTime fecha) {
+        return !LocalDateTime.now().isAfter(fecha);
+    }
+
+    public void actualizarEstado() {
+        if (LocalDateTime.now().isAfter(fechaFinal)) {
+            this.estadoActual = false;
+        }
+
+    }
+
+    public static void actualizarTodasLasCitas( ArrayList<Cita> listaCitas) {
+        for (Cita c : listaCitas ) {
+            if (c != null) {
+                c.actualizarEstado();
+            }
+        }
     }
 }

@@ -45,8 +45,12 @@ public class Usuario {
 
 
     public void consultar(ArrayList<Cita> citas) {
+        Evento.actualizarTodasLasCitas(citas);
         for(Cita cita: citas){
-            System.out.println(cita);
+            if (cita.getEstado()==true){
+                System.out.println(cita);
+            }
+            
         }
         
     }
@@ -54,10 +58,27 @@ public class Usuario {
     public void agendar(Scanner sc, List<Cita> citas,  List<Impresora> impresoras) {
 
             try {
-                System.out.println("Ingrese la fecha y hora de inicio (formato: yyyy-MM-dd HH:mm):");
-                String entradaFecha = sc.nextLine();
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                LocalDateTime fechaInicio = LocalDateTime.parse(entradaFecha, formato);
+                LocalDateTime fechaInicio = null;
+                
+                // validar fecha cita
+                // Bucle hasta que se ingrese una fecha válida
+                while (true) {
+                    try {
+                        System.out.println("Ingrese la fecha y hora de inicio (formato: yyyy-MM-dd HH:mm):");
+                        String entradaFecha = sc.nextLine();
+                        fechaInicio = LocalDateTime.parse(entradaFecha, formato);
+
+                        if (!Evento.validarFecha(fechaInicio)) {
+                            System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
+                        } else {
+                            break; // fecha válida
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Formato de fecha inválido. Intente nuevamente.");
+                    }
+                }
+                
 
                 System.out.println("Ingrese la duración en minutos:");
                 int duracion = sc.nextInt();
@@ -84,6 +105,9 @@ public class Usuario {
 
                 // Crear la cita
                 Cita nuevaCita = new Cita(impresoraAsignada, peso, fechaInicio, duracion, this);
+
+                this.idCitaAgendada = nuevaCita.getId();
+
                 citas.add(nuevaCita);
 
                 impresoraAsignada.agendarCita(nuevaCita);

@@ -23,7 +23,7 @@ public class Gestor {
         new Estudiante("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
         new Estudiante("1004", "Ana Vasquez", "anavasq", "ana2024"),
         new Profesor("1005", "Luis Rodriguez", "lrodriguez", "qwerty"),
-        new Administrador("1006", "Alejandro Muñoz", "a", "a")
+        new Estudiante("1006", "Alejandro Muñoz", "a", "a")
         };
         return usuarios;
     }
@@ -43,7 +43,7 @@ public class Gestor {
         citas.add(new Cita(listaImpresoras[0], 23.5, LocalDateTime.of(2025, 6, 28, 10, 0), 60, listaUsuarios[0]));
         citas.add(new Cita(listaImpresoras[1], 45.0, LocalDateTime.of(2025, 6, 28, 12, 0), 90, listaUsuarios[1]));
         citas.add(new Cita(listaImpresoras[2], 30.0, LocalDateTime.of(2025, 6, 29, 9, 30), 45, listaUsuarios[2]));
-
+        
         return citas;
     }
 
@@ -253,12 +253,10 @@ public class Gestor {
                         break;
                     case "5":
 
-                        Scanner sc2= new Scanner(System.in);
-                        String idCita=sc2.nextLine();
-                        System.out.println("Ingresa el id de la cita a cancelar");
-
-                        administrador.cancelarCitas(listaCitas,idCita);
-                        rep=false;
+                        System.out.print("Ingresa el id de la cita a cancelar: ");
+                        String idCita = sc.nextLine();
+                        administrador.cancelarCitas(listaCitas, idCita);
+                        rep = false;
                     
                         break;
                     case "6":
@@ -275,7 +273,7 @@ public class Gestor {
                         break;
                     case "9":
                         rep=false;
-                        break;
+                        return;
 
                     default:
                         System.out.println("Opción no válida.");
