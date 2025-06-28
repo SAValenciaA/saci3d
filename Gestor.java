@@ -23,7 +23,7 @@ public class Gestor {
         new Estudiante("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
         new Estudiante("1004", "Ana Vasquez", "anavasq", "ana2024"),
         new Profesor("1005", "Luis Rodriguez", "lrodriguez", "qwerty"),
-        new Estudiante("1006", "Alejandro Muñoz", "a", "a")
+        new Administrador("1006", "Alejandro Muñoz", "a", "a")
         };
         return usuarios;
     }
@@ -164,9 +164,8 @@ public class Gestor {
                         rep=false;
                         break;
                     case "4":
-                        rep=false;
-                        menu=false;
-                        break;
+                        
+                        return;
 
                     default:
                         System.out.println("Opción no válida.");
@@ -208,9 +207,8 @@ public class Gestor {
                         rep=false;
                         break;
                     case "5":
-                        rep=false;
-                        menu=false;
-                        break;
+                    
+                        return;
 
                     default:
                         System.out.println("Opción no válida.");
@@ -260,7 +258,9 @@ public class Gestor {
                     
                         break;
                     case "6":
-                        administrador.cambiarDispo();
+                        System.out.println("Ingresa el id de la impresora");
+                        String idImpresora=sc.nextLine();
+                        administrador.cambiarDispo(listaImpresoras,idImpresora);
                         rep=false;
                         break;
                     case "7":
@@ -268,11 +268,11 @@ public class Gestor {
                         rep=false;
                         break;
                     case "8":
-                        administrador.agregarImpresora();
+                        administrador.agregarImpresora(sc, List.of(listaImpresoras));
                         rep=false;
                         break;
                     case "9":
-                        rep=false;
+                        
                         return;
 
                     default:

@@ -2,7 +2,7 @@
 import java.time.LocalDateTime;
 
 public class Cita extends Evento  {
-    private Impresora numImpresora;
+    public Impresora numImpresora;
     private double pesoFilamento;
     
 
@@ -28,7 +28,6 @@ public class Cita extends Evento  {
         actualizarEstado(); 
         return getCreador() + " " + getDuracion() + " " + getId() + "\n";
     }
-
 
 
 

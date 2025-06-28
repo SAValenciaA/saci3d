@@ -1,4 +1,4 @@
-public class Impresora {
+public class Impresora implements interfazGetId{
     final private String idImpresora ;
     private boolean disponible;
     private Cita[] proximasCitas;
@@ -22,7 +22,7 @@ public class Impresora {
         return false;
     }
 
-    public String getIdImpresora() {
+    public String getId() {
         return idImpresora;
     }
 
@@ -33,13 +33,13 @@ public class Impresora {
     public Cita[] getProximasCitas() {
         return proximasCitas;
     }
-
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
+    
     public static void minusFila(double valor){
         filamento-=valor;
+    }
+
+    public void setDisponible(boolean var1) {
+    this.disponible = var1;
     }
 
     public boolean agendarCita(Cita nuevaCita) {
