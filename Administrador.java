@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Scanner;
 public class Administrador extends Usuario  {
 
+    //constructor 
+
     public Administrador(String id, String nombre, String usuario, String contraseña) {
         super(id, nombre, usuario,contraseña);
     }
 
+    //funcionalidades propias de la clase administrador
+    
     public void cancelarCitas(ArrayList<Cita> citas,String idCita) {
         int indice = -1;
         for (int i = 0; i < citas.size(); i++) {
@@ -36,17 +40,22 @@ public class Administrador extends Usuario  {
         }
         if(hecho==false){
             System.out.println("impresora no encontrada");
+        }else{
+            System.out.println("Se ha cambiado la disponibilidad de "+ idImpresora + ", mensaje enviado a usuarios" );
+            
+            new Anuncio("Se ha cambiado la disponibilidad de "+ idImpresora , LocalDateTime.now(), 30);
         }
             
     }
 
-
     public void cambiarTopeSemanal(int actualizarTope){
-        Usuario.tope=actualizarTope;
+        Usuario.tope=actualizarTope; 
+        System.out.println("Se ha cambiado el tope semanal a "+ actualizarTope);
     }
 
     public void cambiarTopeDiario(int actualizarTope){
         Usuario.tope=actualizarTope;
+        System.out.println("Se ha cambiado el tope diario a "+ actualizarTope);
     }
 
     public void agregarImpresora(Scanner sc,  List<Impresora> impresoras){

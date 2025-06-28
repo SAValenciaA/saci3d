@@ -15,15 +15,19 @@ public class Cita extends Evento  {
         Impresora.minusFila(pesoFilamento);
 
     }
+    
+    // getters
+
     public Impresora getNumImpresora() {
         return numImpresora;
     }
-
 
     public double  getPesoEnGramos() {
         return pesoFilamento;
     }
 
+    //toString
+    @Override
     public String toString() {
         actualizarEstado(); 
         return getCreador() + " " + getFechaInicio() + " " + "Hasta: " + getFechaFinal()+ " " + getId() + "\n";

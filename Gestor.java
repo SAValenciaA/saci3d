@@ -9,13 +9,15 @@ public class Gestor {
     private ArrayList<Cita> listaCitas;
     private ArrayList<Anuncio> listaAnuncios;
     
-
+    // Constructor
     public Gestor() {
         this.listaUsuarios= getUsuarios();
         this.listaImpresoras = getImpresora();
         this.listaCitas = getCitas();
         this.listaAnuncios=getAnuncios();
     }
+
+    // listas de manejo para pruebas
 
     private ArrayList<Anuncio> getAnuncios(){
         ArrayList<Anuncio> Anuncios = new ArrayList<>();
@@ -46,6 +48,7 @@ public class Gestor {
         return impresoras;
         
     }
+    
     private ArrayList<Cita> getCitas() {  ArrayList<Cita> citas = new ArrayList<>();
 
         // Agregar objetos Cita
@@ -101,6 +104,8 @@ public class Gestor {
         return false;
     }
 
+    //Inicios de sesion y funcionalidades segun el rol
+    
     public void inicio(){
 
         System.out.println("Bienvenido al SACI3D piloto");
@@ -190,6 +195,7 @@ public class Gestor {
         }
 
     }  
+
     public void inicioProfesor(Profesor profesor){
         Scanner sc= new Scanner(System.in);
         boolean menu= true;
@@ -225,8 +231,25 @@ public class Gestor {
                         String mensaje = sc.nextLine();
 
                         System.out.print("Escribe la fecha de inicio (formato yyyy-MM-dd HH:mm): ");
-                        String fechaStr = sc.nextLine();
-                        LocalDateTime fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+                        LocalDateTime fechaInicio = null;
+                        while (true) {
+                            try {
+                                System.out.println("Ingrese la fecha y hora de inicio (formato: yyyy-MM-dd HH:mm):");
+                                String fechaStr = sc.nextLine();
+                                fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+
+                                if (!Evento.validarFecha(fechaInicio)) {
+                                    System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
+                                } else {
+                                    break; // fecha válida
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Formato de fecha inválido. Intente nuevamente.");
+                            }
+                        }
+
 
                         System.out.print("Escribe la duración (en minutos): ");
                         int duracion = Integer.parseInt(sc.nextLine());
@@ -236,6 +259,9 @@ public class Gestor {
                         int index = Integer.parseInt(sc.nextLine());
 
                         profesor.anunciar(mensaje, listaAnuncios, fechaInicio, duracion, listaUsuarios[index]);
+
+                        System.out.println("Anuncio realizado con exito!");
+
                         rep=false;
                         break;
                     case "5":
@@ -255,6 +281,7 @@ public class Gestor {
         }
 
     }
+    
     public void inicioAdministrador(Administrador administrador){
         Scanner sc= new Scanner(System.in);
         boolean menu= true;
@@ -288,9 +315,23 @@ public class Gestor {
                         System.out.print("Escribe el mensaje del anuncio: ");
                         String mensaje = sc.nextLine();
 
-                        System.out.print("Escribe la fecha de inicio (formato yyyy-MM-dd HH:mm): ");
-                        String fechaStr = sc.nextLine();
-                        LocalDateTime fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                        LocalDateTime fechaInicio = null;
+                        while (true) {
+                            try {
+                                System.out.println("Ingrese la fecha y hora de inicio (formato: yyyy-MM-dd HH:mm):");
+                                String fechaStr = sc.nextLine();
+                                fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+
+                                if (!Evento.validarFecha(fechaInicio)) {
+                                    System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
+                                } else {
+                                    break; // fecha válida
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Formato de fecha inválido. Intente nuevamente.");
+                            }
+                        }
 
                         System.out.print("Escribe la duración (en minutos): ");
                         int duracion = Integer.parseInt(sc.nextLine());
@@ -300,6 +341,8 @@ public class Gestor {
                         int index = Integer.parseInt(sc.nextLine());
 
                         administrador.anunciar(mensaje, listaAnuncios, fechaInicio, duracion, listaUsuarios[index]);
+
+                        System.out.println("Anuncio realizado con exito!");
                         rep=false;
                         break;
 

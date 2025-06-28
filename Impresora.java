@@ -13,16 +13,13 @@ public class Impresora implements interfazGetId{
         capacidadMax = capacidadMaxCitas;
         
     }
-    // to string 
-
-    public String toString() {
-        return idImpresora + "Disponible: "+ disponible + "Filamento: "+ filamento;
-    }
-
+    
+    // getters
 
     public double getFilamento(){
         return filamento;
     }
+    
     public boolean enUso() {
         for (Cita cita : proximasCitas) {
             if (cita != null) return true;
@@ -42,6 +39,8 @@ public class Impresora implements interfazGetId{
         return proximasCitas;
     }
     
+    // set y calculos utiles
+    
     public static void minusFila(double valor){
         filamento-=valor;
     }
@@ -58,5 +57,11 @@ public class Impresora implements interfazGetId{
             }
         }
         return false; 
+    }
+
+    // to string 
+    
+    public String toString() {
+        return idImpresora + "Disponible: "+ disponible + "Filamento: "+ filamento;
     }
 }

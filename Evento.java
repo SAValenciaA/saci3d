@@ -9,6 +9,8 @@ abstract class Evento implements  interfazGetId{
     private boolean estadoActual;
 
     public static int numEventos=0;
+    
+    // constructor
 
     public Evento(LocalDateTime  fechaInicio, Usuario creador,int duracion){
         numEventos++;
@@ -20,20 +22,24 @@ abstract class Evento implements  interfazGetId{
         this.estadoActual = true;
     }
 
+    //getters
+
     public void estadoActual(boolean estado){
         this.estadoActual = estado;
     }
 
-
     public String getId(){
         return idEvento;
     }
+    
     public String getCreador(){
         return creador;
     }
+    
     public LocalDateTime getFechaInicio(){
         return fechaInicio;
     }
+    
     public LocalDateTime getFechaFinal(){
         return fechaFinal;
     }
@@ -41,11 +47,10 @@ abstract class Evento implements  interfazGetId{
     public int getDuracion() {
         return duracion;
     }
+
     public boolean getEstado(){
         return estadoActual;
     }
-
-
 
     // funciones de validacion de fechas
 

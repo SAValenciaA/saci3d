@@ -57,7 +57,8 @@ public class Usuario implements interfazGetId {
         
     }
 
-
+    // Funciones utiles para el agendamiento 
+    
     public void consultar(ArrayList<Cita> citas) {
         Evento.actualizarTodasLasCitas(citas);
         for(Cita cita: citas){
