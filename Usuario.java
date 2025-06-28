@@ -40,10 +40,19 @@ public class Usuario implements interfazGetId {
     public String getId() {
         return id;
     }
-    public void getIdCitas(){
-        for(String cita:idCitasAgendadas){
-            System.out.println(cita);
+
+    public void getMisCitas(ArrayList<Cita> citas){
+
+        if(idCitasAgendadas.size()!=0){
+            for(int i=0;i<idCitasAgendadas.size();i++){
+                for(int j=0;j<citas.size();j++){
+                    if(idCitasAgendadas.get(i).equals(citas.get(j).getId())){
+                        System.out.println(citas.get(j));
+                    }
+                }
+            }
         }
+        
     }
 
 
@@ -58,7 +67,7 @@ public class Usuario implements interfazGetId {
         
     }
 
-    public void agendar(Scanner sc, List<Cita> citas,  List<Impresora> impresoras) {
+    public void agendar(Scanner sc, ArrayList<Cita> citas,  ArrayList<Impresora> impresoras) {
         if(idCitasAgendadas.size()<Usuario.tope){
             try {
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -89,8 +98,8 @@ public class Usuario implements interfazGetId {
 
 
                 // verificar disponibilidad 
-
                 LocalDateTime fechaFin = fechaInicio.plusMinutes(duracion);
+
                 if (Evento.seSuperpone(fechaInicio, fechaFin, citas)) {
                     System.out.println("Ya hay una cita programada en ese horario. Intente con otro horario.");
                     return;
@@ -137,6 +146,7 @@ public class Usuario implements interfazGetId {
     }
 
     public void cancelar(ArrayList<Cita> citas,String idCita) {
+        getMisCitas(citas);
         boolean toBe=false;
         for(int j=0;j<idCitasAgendadas.size();j++){
             if(idCita.equals(idCitasAgendadas.get(j))){
