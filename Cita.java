@@ -1,42 +1,39 @@
-public class Cita  {
-    private int duracion;
+
+import java.time.LocalDateTime;
+
+public class Cita extends Evento  {
     private Impresora numImpresora;
-    private String nombre;
-    private String descripcion;
-    private int pesoEnGramos;
+    private String usuario;
+    private double pesoFilamento;
 
     // Constructor
-    public Cita(int duracion, Impresora numImpresora, String nombre, String descripcion, int pesoEnGramos) {
-        this.duracion = duracion;
+    public Cita(Impresora numImpresora, double pesoFilamento, LocalDateTime fechaInicio, int duracion,Usuario destinatario) {
+        super(fechaInicio,destinatario,duracion);
         this.numImpresora = numImpresora;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.pesoEnGramos = pesoEnGramos;
-    }
+        this.pesoFilamento = pesoFilamento;
+        Impresora.minusFila(pesoFilamento);
 
-    // Getters
-    public int getDuracion() {
-        return duracion;
     }
-
     public Impresora getNumImpresora() {
         return numImpresora;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getUsuario(){
+        return usuario;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public int getPesoEnGramos() {
-        return pesoEnGramos;
+    public double  getPesoEnGramos() {
+        return pesoFilamento;
     }
 
     public String toString(){
-        return getNombre()+" "+getDescripcion()+"\n";
+        return getUsuario()+" "+getDuracion()+"\n";
     }
+
+   
+    public void estadoActual(){
+        System.out.println();
+    }
+
 
 }
