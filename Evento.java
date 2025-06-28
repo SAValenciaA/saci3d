@@ -1,6 +1,6 @@
 
 import  java.time.LocalDateTime;
-abstract class Evento {
+abstract class Evento implements  interfazGetId{
     private String idEvento;
     private LocalDateTime  fechaInicio;
     private LocalDateTime fechaFinal;

@@ -11,17 +11,30 @@ public class Administrador extends Usuario implements interfazAnunciar {
             if(citas.get(i).getId().equals(idCita)){
                 citas.remove(i);
                 System.out.println("cita eliminada con exito");
+                citas.get(i).getNumImpresora().setDisponible(true);
             }
         }
+
     }
-    public void cambiarDispo(){
-        
+    public void cambiarDispo(Impresora[]listaImpresoras,String idImpresora){
+        boolean hecho= false;
+        for(int i = 0; i < listaImpresoras.length; i++) {
+            if(listaImpresoras[i].getId().equals(idImpresora)){
+                System.out.println("cambio hecho!");
+                listaImpresoras[i].setDisponible(true);
+                hecho=true;
+            }
+        }
+        if(hecho==false){
+            System.out.println("impresora no encontrada");
+        }
+            
     }
     public void anunciar() {
     }
     public void cambiarTope(){
     }
     public void agregarImpresora(){
-
+        
     }
 }

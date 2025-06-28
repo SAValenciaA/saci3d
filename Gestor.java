@@ -253,16 +253,17 @@ public class Gestor {
                         break;
                     case "5":
 
-                        Scanner sc2= new Scanner(System.in);
-                        String idCita=sc2.nextLine();
                         System.out.println("Ingresa el id de la cita a cancelar");
-
+                        String idCita=sc.nextLine();
+                        
                         administrador.cancelarCitas(listaCitas,idCita);
                         rep=false;
                     
                         break;
                     case "6":
-                        administrador.cambiarDispo();
+                        System.out.println("Ingresa el id de la impresora");
+                        String idImpresora=sc.nextLine();
+                        administrador.cambiarDispo(listaImpresoras,idImpresora);
                         rep=false;
                         break;
                     case "7":
@@ -274,6 +275,7 @@ public class Gestor {
                         rep=false;
                         break;
                     case "9":
+                        menu=false;
                         rep=false;
                         break;
 

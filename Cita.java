@@ -2,7 +2,7 @@
 import java.time.LocalDateTime;
 
 public class Cita extends Evento  {
-    private Impresora numImpresora;
+    public Impresora numImpresora;
     private double pesoFilamento;
 
     // Constructor
@@ -25,7 +25,6 @@ public class Cita extends Evento  {
     public String toString(){
         return getCreador()+" "+getDuracion()+" "+getId()+"\n";
     }
-
 
     public void estadoActual(){
         System.out.println();

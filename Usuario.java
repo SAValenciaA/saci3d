@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Usuario {
+public class Usuario implements interfazGetId {
     private String id;
     private String nombre;
     private String usuario;
@@ -36,6 +36,7 @@ public class Usuario {
         return usuario;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -88,7 +89,7 @@ public class Usuario {
 
                 impresoraAsignada.agendarCita(nuevaCita);
 
-                System.out.println("Cita agendada exitosamente en la impresora " + impresoraAsignada.getIdImpresora());
+                System.out.println("Cita agendada exitosamente en la impresora " + impresoraAsignada.getId());
 
             } catch (Exception e) {
                 System.out.println("Error al ingresar los datos. Verifica el formato.");
