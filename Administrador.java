@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Administrador extends Usuario  {
 
     //constructor 
+    // explicacion spity
 
     public Administrador(String id, String nombre, String usuario, String contraseña) {
         super(id, nombre, usuario,contraseña);

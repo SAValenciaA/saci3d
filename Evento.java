@@ -73,6 +73,8 @@ abstract class Evento implements  interfazGetId{
         }
     }
 
+    // impedir fechas invalidas en citas
+    
     public static boolean seSuperpone(LocalDateTime nuevaInicio, LocalDateTime nuevaFin, ArrayList<Cita> listaCitas) {
     for (Cita c : listaCitas) {
         if (c == null || !c.getEstado()) continue;  // Ignora citas eliminadas o pasadas
