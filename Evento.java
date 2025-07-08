@@ -7,6 +7,7 @@ abstract class Evento implements  interfazGetId{
     private  int duracion;
     private String creador;
     private boolean estadoActual;
+    private Usuario destinatario;
 
     public static int numEventos=0;
     
@@ -20,6 +21,7 @@ abstract class Evento implements  interfazGetId{
         this.fechaFinal=fechaInicio.plusMinutes(duracion);
         this.creador=creador.getUsuario();
         this.estadoActual = true;
+        this.destinatario = destinatario;
     }
 
     //getters
@@ -86,5 +88,9 @@ abstract class Evento implements  interfazGetId{
         }
     }
     return false;
-}
+    }
+
+    public Usuario getDestinatario() {
+    return destinatario;
+    }
 }

@@ -45,8 +45,8 @@ public class Impresora implements interfazGetId{
         filamento-=valor;
     }
 
-    public void setDisponible() {
-    this.disponible = !disponible;
+    public void setDisponible(boolean disponible) {
+    this.disponible = disponible;
     }
 
     public boolean agendarCita(Cita nuevaCita) {

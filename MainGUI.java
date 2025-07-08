@@ -1,6 +1,9 @@
+import java.io.File;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -10,33 +13,57 @@ public class MainGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("SACI3D - Inicio de sesión");
+        Image imagen = new Image(new File("logo-Universidad-Nacional.png").toURI().toString());
+        ImageView imageView = new ImageView(imagen);
+        imageView.setFitWidth(200);
+        imageView.setPreserveRatio(true);
 
+        // Título
+        Label titulo = new Label("SACI3D - Sistema de Agendamiento");
+        titulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+        // Campos de usuario y clave
         Label labelUsuario = new Label("Usuario:");
         TextField campoUsuario = new TextField();
 
-        Label labelContrasena = new Label("Contraseña:");
-        PasswordField campoContrasena = new PasswordField();
+        Label labelClave = new Label("Clave:");
+        PasswordField campoClave = new PasswordField();
 
-        Button botonLogin = new Button("Iniciar sesión");
+        Button botonLogin = new Button("Iniciar sesion");
         Label mensaje = new Label();
 
+        // Cambiar tamaño de letra (agrandar)
+        labelUsuario.setStyle("-fx-font-size: 18px;");
+        campoUsuario.setStyle("-fx-font-size: 18px;");
+        labelClave.setStyle("-fx-font-size: 18px;");
+        campoClave.setStyle("-fx-font-size: 18px;");
+        botonLogin.setStyle("-fx-font-size: 18px;");
+        mensaje.setStyle("-fx-font-size: 18px;");
+
+        // Acción del botón
         botonLogin.setOnAction(e -> {
-            String user = campoUsuario.getText();
-            String pass = campoContrasena.getText();
-            Usuario u = gestor.iniciarSesion(user, pass);
-            if (u != null) {
-                mensaje.setText("¡Bienvenido " + u.getNombre() + "!");
-               
+            String usuario = campoUsuario.getText();
+            String clave = campoClave.getText();
+
+            Usuario usuarioLogueado = gestor.iniciarSesion(usuario, clave);
+
+            if (usuarioLogueado != null) {
+                mensaje.setText("Inicio de sesion exitoso");
+                PantallaPrincipal pantalla = new PantallaPrincipal(usuarioLogueado, gestor);
+                pantalla.mostrar();
             } else {
-                mensaje.setText("Credenciales incorrectas.");
+                mensaje.setText("Credenciales incorrectas");
             }
         });
 
-        VBox vbox = new VBox(10, labelUsuario, campoUsuario, labelContrasena, campoContrasena, botonLogin, mensaje);
-        Scene scene = new Scene(vbox, 300, 200);
+        // Organizar todo en el VBox
+        VBox vbox = new VBox(10, imageView, titulo, labelUsuario, campoUsuario, labelClave, campoClave, botonLogin, mensaje);
+        vbox.setStyle("-fx-padding: 20; -fx-alignment: center;");
 
+        // Agrandar ventana (800x600)
+        Scene scene = new Scene(vbox, 800, 600);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("SACI3D - Inicio de sesion");
         primaryStage.show();
     }
 

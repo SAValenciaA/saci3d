@@ -2,7 +2,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Usuario implements interfazGetId {
@@ -10,18 +9,21 @@ public class Usuario implements interfazGetId {
     private String nombre;
     private String usuario;
     private ArrayList<String> idCitasAgendadas;
-    private String contraseña;
-    protected static int tope=1;
+    private String clave;
+    protected static int tope=3;
     protected static int topeDiario = 60;
-    public int topeDiarioUsuario = 0;
+    public int topeSemanalUsuario = 0;
+    public int topeDiarioUsuario= 0;
+    
+
     // Constructor
-    public Usuario(String id, String nombre, String usuario, String contraseña) {
+    public Usuario(String id, String nombre, String usuario, String clave) {
 
         this.id = id;
         this.nombre = nombre;
         this.usuario = usuario;
         this.idCitasAgendadas = new ArrayList<>();
-        this.contraseña=contraseña;
+        this.clave=clave;
         
     }
 
@@ -30,8 +32,8 @@ public class Usuario implements interfazGetId {
         return nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getClave() {
+        return clave;
     }
 
     public String getUsuario() {
@@ -184,7 +186,7 @@ public class Usuario implements interfazGetId {
             for (int i = 0; i < citas.size(); i++) {
                 if(citas.get(i).getId().equals(idCita)){
                     indice = i;
-                    citas.get(i).getNumImpresora().setDisponible();
+                    citas.get(i).getNumImpresora().setDisponible(true);
                 }
             }
             citas.remove(indice);
@@ -195,6 +197,14 @@ public class Usuario implements interfazGetId {
             System.out.println("No tienes agendada esta cita");
         }
     }
+    public boolean puedeAgendarCita() {
+        return topeDiarioUsuario < tope;
+    }
+
+    public void aumentarTopeDiario() {
+        topeDiarioUsuario++;
+    }
+
 }
 
 

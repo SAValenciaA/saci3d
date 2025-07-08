@@ -31,4 +31,8 @@ public class Anuncio extends Evento{
     public void setMensajeContenido(String mensajeContenido) {
         this.mensajeContenido = mensajeContenido;
     }
+
+    public Usuario getDestinatario() {
+        return super.getDestinatario();
+    }
 }

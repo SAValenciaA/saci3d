@@ -2,12 +2,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-public class Administrador extends Usuario  {
+public class Administrador extends Usuario implements Cancelable, ConfigurableSistema, AgregadorImpresoras, Comunicador {
+
 
     //constructor 
 
-    public Administrador(String id, String nombre, String usuario, String contraseña) {
-        super(id, nombre, usuario,contraseña);
+    public Administrador(String id, String nombre, String usuario, String clave) {
+        super(id, nombre, usuario,clave);
     }
 
     //funcionalidades propias de la clase administrador
@@ -17,7 +18,7 @@ public class Administrador extends Usuario  {
         for (int i = 0; i < citas.size(); i++) {
             if(citas.get(i).getId().equals(idCita)){
                 indice = i;
-                citas.get(i).getNumImpresora().setDisponible();
+                citas.get(i).getNumImpresora().setDisponible(true);
             }
         }
         if (indice >= 0){
@@ -34,7 +35,7 @@ public class Administrador extends Usuario  {
         for(int i = 0; i < listaImpresoras.size(); i++) {
             if(listaImpresoras.get(i).getId().equals(idImpresora)){
                 System.out.println("cambio hecho!");
-                listaImpresoras.get(i).setDisponible();
+                listaImpresoras.get(i).setDisponible(true);
                 hecho=true;
             }
         }

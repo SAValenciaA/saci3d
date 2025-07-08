@@ -62,11 +62,11 @@ public class Gestor {
     // Métodos para agregar, buscar, validar, etc...
 
     // Método para iniciar sesión (versión básica con solo nombre de usuario)
-    public Usuario iniciarSesion(String inicioUsuario, String contraseña) {
+    public Usuario iniciarSesion(String inicioUsuario, String clave) {
 
         for (Usuario usuario : listaUsuarios) {
             if (usuario != null && usuario.getUsuario().equals(inicioUsuario)) {
-                if(usuario.getContraseña().equals(contraseña)){
+                if(usuario.getClave().equals(clave)){
                     return usuario;
                 }
             }
@@ -115,7 +115,7 @@ public class Gestor {
         System.out.print("Usuario: ");
         String username = sc.nextLine();
 
-        System.out.print("Contraseña: ");
+        System.out.print("Clave: ");
         String password = sc.nextLine();
 
         boolean rep= true;
@@ -141,7 +141,7 @@ public class Gestor {
                 }
 
             }else{
-                System.out.println("Usuario o contraseña incorrectos");
+                System.out.println("Usuario o clave incorrectos");
                 inicio();
             }
             
@@ -155,6 +155,14 @@ public class Gestor {
         boolean menu= true;
         while(menu){
             System.out.println("Hola "+estudiante.getNombre()+" ¿que deseas hacer el dia de hoy?");
+
+            System.out.println("=== Anuncios Importantes ===");
+            for (Anuncio anuncio : listaAnuncios) {
+                if (anuncio.getDestinatario() == null || anuncio.getDestinatario().equals(estudiante)) {
+                    System.out.println(anuncio);
+                }
+            }
+
             System.out.println("1) consultar\n2) agendar\n3) cancelar\n4)ver mis citas\n5)salir");
             String opt=sc.nextLine();
         
@@ -201,6 +209,14 @@ public class Gestor {
         boolean menu= true;
         while(menu){
             System.out.println("Hola profesor "+profesor.getNombre()+" ¿que deseas hacer el dia de hoy?");
+
+            System.out.println("=== Anuncios Importantes ===");
+            for (Anuncio anuncio : listaAnuncios) {
+                if (anuncio.getDestinatario() == null || anuncio.getDestinatario().equals(profesor)) {
+                    System.out.println(anuncio);
+                }
+            }
+
             System.out.println("1) consultar\n2) agendar\n3) cancelar\n4) anunciar\n5)ver mis citas\n6)salir");
             String opt=sc.nextLine();
             boolean rep=true;
@@ -287,6 +303,12 @@ public class Gestor {
         boolean menu= true;
         while(menu){
             System.out.println("Hola profesor "+administrador.getNombre()+" ¿que deseas hacer el dia de hoy?");
+
+            System.out.println("=== Anuncios Importantes ===");
+            for (Anuncio anuncio : listaAnuncios) {
+                System.out.println(anuncio);
+            }
+
             System.out.println("1) consultar\n2) agendar\n3) cancelar mi cita\n4) anunciar\n5)cancelar citas\n6)cambiar disponibilidad impresora\n7)cambiar tope de impresion \n8)agregar impresora\n9)ver mis citas\n10)salir");
             String opt=sc.nextLine();
             boolean rep=true;
@@ -388,4 +410,21 @@ public class Gestor {
         }
 
     }
+    public ArrayList<Cita> getListaCitas() {
+        return listaCitas;
+    }
+    public ArrayList<Impresora> getListaImpresoras() {
+        return listaImpresoras;
+    }
+
+    public void registrarCita(Cita cita) {
+        listaCitas.add(cita);
+    }
+    public void eliminarCita(Cita cita) {
+        listaCitas.remove(cita);
+    }
+    public ArrayList<Anuncio> getListaAnuncios() {
+        return listaAnuncios;
+    }
+
 }
