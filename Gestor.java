@@ -1,391 +1,269 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Gestor {
-    private Usuario[] listaUsuarios;
-    private ArrayList<Impresora> listaImpresoras;
-    private ArrayList<Cita> listaCitas;
-    private ArrayList<Anuncio> listaAnuncios;
-    
-    // Constructor
+    public static Usuario usuario;
+    public static Scanner sc = new Scanner(System.in);
+
     public Gestor() {
-        this.listaUsuarios= getUsuarios();
-        this.listaImpresoras = getImpresora();
-        this.listaCitas = getCitas();
-        this.listaAnuncios=getAnuncios();
     }
 
-    // listas de manejo para pruebas
-
-    private ArrayList<Anuncio> getAnuncios(){
-        ArrayList<Anuncio> Anuncios = new ArrayList<>();
-        Anuncios.add(new Anuncio("Mantenimiento el lunes", LocalDateTime.now(), 60, listaUsuarios[0]));
-        Anuncios.add(new Anuncio("Cambio de horario", LocalDateTime.now(), 30, listaUsuarios[1]));
-        return Anuncios;
-    }
-
-    private Usuario[] getUsuarios() {
-        Usuario[] usuarios = new Usuario[] {
-        new Profesor("1001", "Sergio Valencia", "sevalenciaa", "rockyou"),
-        new Administrador("1002", "Juliana Lopez", "jlopezm", "password123"),
-        new Estudiante("1003", "Carlos Martinez", "cmartinez", "1234abcd"),
-        new Estudiante("1004", "Ana Vasquez", "anavasq", "ana2024"),
-        new Profesor("1005", "Luis Rodriguez", "lrodriguez", "qwerty"),
-        new Administrador("1006", "Alejandro Muñoz", "a", "a")
-        };
-        return usuarios;
-    }
-
-    private ArrayList<Impresora> getImpresora(){
-        ArrayList<Impresora> impresoras = new ArrayList<>();
-        
-            impresoras.add(new Impresora("A", 5));
-            impresoras.add(new Impresora("B", 3));
-            impresoras.add(new Impresora("C", 4));
-        
-        return impresoras;
-        
+    public static LocalDateTime parseTime(String date) {
+      DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+      return LocalDateTime.parse(date, formato);
     }
     
-    private ArrayList<Cita> getCitas() {  ArrayList<Cita> citas = new ArrayList<>();
+    /*
+     * Esta funcion toma una fecha de un usuario y la valida
+     *
+     * @param mensaje Es el mensaje que se le manda al usuario cada 
+     * vez que se le pide la fecha
+     *
+     * @return La fecha ingresada
+     */
+    public static LocalDateTime ingresarFecha(String mensaje){
 
-        // Agregar objetos Cita
-        citas.add(new Cita(listaImpresoras.get(0), 23.5, LocalDateTime.of(2025, 6, 28, 10, 0), 60, listaUsuarios[0]));
-        citas.add(new Cita(listaImpresoras.get(1), 45.0, LocalDateTime.of(2025, 6, 28, 12, 0), 90, listaUsuarios[1]));
-        citas.add(new Cita(listaImpresoras.get(2), 30.0, LocalDateTime.of(2025, 6, 29, 9, 30), 45, listaUsuarios[2]));
-        
-        return citas;
-    }
+        sc = new Scanner(System.in);
+        LocalDateTime fechaInicio;
+        String fechaStr;
 
-    // Métodos para agregar, buscar, validar, etc...
+        while (true) {
+          try {
+              System.out.print(mensaje + " (formato: yyyy-MM-dd HH:mm): ");
+              fechaStr = sc.nextLine();
+              fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
-    // Método para iniciar sesión (versión básica con solo nombre de usuario)
-    public Usuario iniciarSesion(String inicioUsuario, String contraseña) {
+              if (!Cita.validarFecha(fechaInicio)) {
+                  System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
+                  continue;
+              } 
 
-        for (Usuario usuario : listaUsuarios) {
-            if (usuario != null && usuario.getUsuario().equals(inicioUsuario)) {
-                if(usuario.getContraseña().equals(contraseña)){
-                    return usuario;
-                }
-            }
+              break;
+
+          } catch (Exception e) {
+              System.out.println("Formato de fecha inválido. Intente nuevamente.");
+          }
         }
-        return null; // no encontrado
+        return fechaInicio;
     }
 
-    // Calcula el total de filamento usado en todas las citas
-    public double calculoFilamento() {
-        double total = 0;
-        for (Impresora c : listaImpresoras) {
-            if (c != null) {
-                total += c.getFilamento();
-            }
-        }
-        return total;
-    }
-
-    // Verifica si una nueva cita se superpone con alguna existente
-    public boolean seSuperponeCon(Cita nueva) {
-        LocalDateTime ini2 = nueva.getFechaInicio();
-        LocalDateTime fin2 = nueva.getFechaFinal();
-
-        for (Cita existente : listaCitas) {
-            if (existente != null) {
-                LocalDateTime ini1 = existente.getFechaInicio();
-                LocalDateTime fin1 = ini1.plusMinutes(existente.getDuracion());
-
-                // Verifica superposición
-                if (ini1.isBefore(fin2) && ini2.isBefore(fin1)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    //Inicios de sesion y funcionalidades segun el rol
-    
-    public void inicio(){
+    /*
+     * Esta funcion es para probar el programa por terminal,
+     * empezando con una pantalla de login
+     */
+    public static void inicio(){
 
         System.out.println("Bienvenido al SACI3D piloto");
 
         Scanner sc = new Scanner(System.in);
+        String username, password;
 
-        System.out.print("Usuario: ");
-        String username = sc.nextLine();
+        while(true){
+            System.out.print("Usuario: ");
+            username = sc.nextLine();
 
-        System.out.print("Contraseña: ");
-        String password = sc.nextLine();
+            System.out.print("Contraseña: ");
+            password = sc.nextLine();
 
-        boolean rep= true;
-        Usuario ingreUsuario;
+            usuario = Usuario.iniciarSesion(username, password);
 
-        while(rep){
-            ingreUsuario=iniciarSesion(username, password);
-            if(ingreUsuario!=null){
-                rep=false;
-                if (ingreUsuario instanceof Profesor) {
-                    Profesor profesor = (Profesor) ingreUsuario;
-                    inicioProfesor(profesor);
-                } else if (ingreUsuario instanceof Estudiante) {
-                    Estudiante estudiante = (Estudiante) ingreUsuario;
-                    inicioEstudiante(estudiante);
-                    // Aquí puedes acceder a métodos o atributos específicos de Estudiante
-                } else if (ingreUsuario instanceof Administrador) {
-                    Administrador admin = (Administrador) ingreUsuario;
-                    inicioAdministrador(admin);
-                    // Aquí puedes acceder a métodos o atributos específicos de Administrador
-                } else {
-                    System.out.println("Tipo de usuario desconocido");
-                }
-
-            }else{
-                System.out.println("Usuario o contraseña incorrectos");
-                inicio();
+            if(usuario != null){
+                mostrarMenu();
+                break;
             }
+
+            System.out.println("Usuario o contraseña incorrecta.");
             
         }
+    }
 
+    /*
+     * Esta funcion le muestra al usuario las opciones que 
+     * puede elegir acorde al tipo de usuario que es
+     *
+     * @return opcion elegida
+     */
+    public static int elegirOpcion() {
+      Scanner sc = new Scanner(System.in);
+      boolean menu = true;
+      String optionString;
+      int option;
+
+      while(menu) {
+
+        System.out.println("Hola " + usuario.nombre + " ¿Que deseas hacer el dia de hoy?");
+        System.out.println(
+            "1 -> consultar\n" +
+            "2 -> agendar\n" +
+            "3 -> cancelar mis citas\n" +
+            "4 ->ver mis citas");
+
+        // Imprime opciones para profesor y administrador, 
+        // si el usuario es profesor o administrador
+        if(usuario instanceof Profesor) {
+          System.out.println("5 -> Anunciar");
+        } else if(usuario instanceof Administrador) {
+          System.out.println(
+              "5 -> Anunciar\n" +
+              "6 ->Agregar material a impresora\n" +
+              "7 ->Agregar Impresora\n" +
+              "8 ->Cancerlar cita de otro usuario\n" +
+              "9 -> Banear usuario\n" +
+              "10 -> Imprimir informe actual");
+        }
+
+        System.out.println("q -> Salir");
+
+        optionString=sc.nextLine();
+
+        // Comprueba si el usuario desea salir
+        if(optionString.equals("q")) {
+          System.out.println("D: Saliendo...");
+          System.exit(0);
+        }
+
+        option = Integer.parseInt(optionString);
+
+        // Comprueba que el usuario no esta intentando hackear 
+        // el sistema
+        if( 
+            (option >= 5 && usuario.rol == "estudiante") || 
+            (option > 5 && usuario.rol == "profesor")
+          ) {
+
+          System.out.println("Buen intento hacker!!!");
+          continue;
+        }
+        return option;
+      }
+      return -1;
+    }
+
+
+    /*
+     * Esta funcion ejecuta la orden que el usuario eligio
+     */
+    public static void mostrarMenu() {
+      LocalDateTime fechaInicio, fechaFin;
+      int option = elegirOpcion();
+      int id, duracion;
+      double filamento;
+
+      switch(option) {
+        // Consultar que citas hay
+        case 1:
+            usuario.consultar();
+            break;
+
+        // Agendar una cita
+        case 2:
+            fechaInicio = ingresarFecha("Ingrese fecha y hora");
+
+            System.out.print("Ingrese la duracion de impresion: ");
+            duracion = sc.nextInt();
+
+            System.out.print("Ingrese peso de impresion: ");
+            filamento = (double)sc.nextInt();
+
+
+            if(usuario.agendar(fechaInicio, duracion, filamento)) {
+              System.out.println("Cita agendada exitosamente");
+            } else {
+              System.out.println("Cita no agendada");
+            }
+            break;
+
+        // Cancelar una cita
+        case 3:
+            System.out.println("ingresa el id de tu cita a cancelar");
+            id=sc.nextInt();
+            usuario.cancelar(Database.CITAS, id);
+            break;
+        // Listar citas del usuario
+        case 4:
+            usuario.getMisCitas();
+            break;
+        // Anunciar
+        case 5:
+
+          System.out.print("Escribe el mensaje del anuncio: ");
+          String mensaje = sc.nextLine();
+
+          fechaInicio = ingresarFecha("Escribe la fecha de inicio del anuncio: ");  
+          fechaFin = ingresarFecha("Escribe la fecha de fin del anuncio: ");  
+
+          usuario.anunciar(mensaje, fechaInicio, fechaFin);
+          break;
+
+        // Cambiar cantidad de filamento TODO: Implementar
+        case 6:
+
+            System.out.print("Ingrese el id de la impresora a la que agregar/quita material: ");
+            id = sc.nextInt();
+
+            System.out.print("Ingrese cuanto filamento se agrego/quito: ");
+            filamento = (double)sc.nextInt();
+
+            break;
+
+        // Agregar impresora
+        case 7:
+            System.out.print("Ingrese cuanto filamento tiene la nueva impresora:");
+            filamento = (double)sc.nextInt();
+
+            try{
+              Impresora nuevaImpresora = new Impresora(-1 , filamento, true,"");
+            } catch(SQLException e) {
+              System.out.println(e);
+            }
+
+            break;
+        // cancelar cita
+        case 8:
+          while(true) {
+
+            String tablas, eleccion;
+
+            tablas = "(";
+            tablas += Database.CITAS + ", ";
+            tablas += Database.ANUNCIOS + ", ";
+            tablas += Database.IMPRESORAS + ")";
+
+            System.out.print("Ingrese la tabla en la que desea eliminar " + tablas + ": ");
+            eleccion = sc.nextLine();
+
+            if(! Database.TABLES.contains(eleccion)) {
+              System.out.println("Esa no es una opcion valida!!!");
+              continue;
+            }
+
+            System.out.print("Ingresa el id del elemento a eliminar: ");
+            id = sc.nextInt();
+
+            usuario.cancelar(eleccion, id);
+
+            break;
+          }
+          break;
+
+        // Banear usuario TODO: IMPLEMENTAR
+        case 9:
+          break;
+
+        // Imprimir informe TODO: IMPLEMENTAR
+        case 10:
+          break;
+
+        default:
+            System.out.println("Opción no válida.");
+      }
 
     }
 
-    public void inicioEstudiante(Estudiante estudiante){
-        Scanner sc= new Scanner(System.in);
-        boolean menu= true;
-        while(menu){
-            System.out.println("Hola "+estudiante.getNombre()+" ¿que deseas hacer el dia de hoy?");
-            System.out.println("1) consultar\n2) agendar\n3) cancelar\n4)ver mis citas\n5)salir");
-            String opt=sc.nextLine();
-        
-            boolean rep=true;
-            while(rep){
-
-                switch (opt) {
-
-                    case "1":
-                        estudiante.consultar(listaCitas);
-                        rep=false;
-                        break;
-
-                    case "2":
-                        estudiante.agendar(sc,listaCitas, listaImpresoras);
-                        rep=false;
-                        break;
-
-                    case "3":
-                        System.out.println("ingresa el id de tu cita a cancelar");
-                        String idCitaPropia=sc.nextLine();
-                        estudiante.cancelar(listaCitas,idCitaPropia);
-                        break;
-                    case "4":
-                        estudiante.getMisCitas(listaCitas);
-                        rep=false;
-                        break;
-                    case "5":
-                        
-                        return;
-
-                    default:
-                        System.out.println("Opción no válida.");
-                }
-            }
-
-
-        }
-
-    }  
-
-    public void inicioProfesor(Profesor profesor){
-        Scanner sc= new Scanner(System.in);
-        boolean menu= true;
-        while(menu){
-            System.out.println("Hola profesor "+profesor.getNombre()+" ¿que deseas hacer el dia de hoy?");
-            System.out.println("1) consultar\n2) agendar\n3) cancelar\n4) anunciar\n5)ver mis citas\n6)salir");
-            String opt=sc.nextLine();
-            boolean rep=true;
-            while(rep){
-
-                switch (opt) {
-
-                    case "1":
-                        profesor.consultar(listaCitas);
-                        rep=false;
-                        break;
-
-                    case "2":
-                        profesor.agendar(sc,listaCitas, listaImpresoras);
-                        rep=false;
-                        break;
-
-
-                    case "3":
-                        System.out.print("Ingresa el id de la cita a cancelar: ");
-                        String idCitaPropia = sc.nextLine();
-                        profesor.cancelar(listaCitas, idCitaPropia);
-                        rep = false;
-                        break;
-                    case "4":
-
-                        System.out.print("Escribe el mensaje del anuncio: ");
-                        String mensaje = sc.nextLine();
-
-                        System.out.print("Escribe la fecha de inicio (formato yyyy-MM-dd HH:mm): ");
-
-                        LocalDateTime fechaInicio = null;
-                        while (true) {
-                            try {
-                                System.out.println("Ingrese la fecha y hora de inicio (formato: yyyy-MM-dd HH:mm):");
-                                String fechaStr = sc.nextLine();
-                                fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
-
-                                if (!Evento.validarFecha(fechaInicio)) {
-                                    System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
-                                } else {
-                                    break; // fecha válida
-                                }
-                            } catch (Exception e) {
-                                System.out.println("Formato de fecha inválido. Intente nuevamente.");
-                            }
-                        }
-
-
-                        System.out.print("Escribe la duración (en minutos): ");
-                        int duracion = Integer.parseInt(sc.nextLine());
-
-                        //implementar logica para dar el mensaje a varias personas
-                        System.out.print("indica el lugar del usuario ");
-                        int index = Integer.parseInt(sc.nextLine());
-
-                        profesor.anunciar(mensaje, listaAnuncios, fechaInicio, duracion, listaUsuarios[index]);
-
-                        System.out.println("Anuncio realizado con exito!");
-
-                        rep=false;
-                        break;
-                    case "5":
-                        profesor.getMisCitas(listaCitas);
-                        rep=false;
-                        break;
-                    case "6":
-                    
-                        return;
-
-                    default:
-                        System.out.println("Opción no válida.");
-                }
-            }
-
-
-        }
-
-    }
-    
-    public void inicioAdministrador(Administrador administrador){
-        Scanner sc= new Scanner(System.in);
-        boolean menu= true;
-        while(menu){
-            System.out.println("Hola profesor "+administrador.getNombre()+" ¿que deseas hacer el dia de hoy?");
-            System.out.println("1) consultar\n2) agendar\n3) cancelar mi cita\n4) anunciar\n5)cancelar citas\n6)cambiar disponibilidad impresora\n7)cambiar tope de impresion \n8)agregar impresora\n9)ver mis citas\n10)salir");
-            String opt=sc.nextLine();
-            boolean rep=true;
-            while(rep){
-
-                switch (opt) {
-
-                    case "1":
-                        administrador.consultar(listaCitas);
-                        rep=false;
-                        break;
-
-                    case "2":
-                        administrador.agendar(sc,listaCitas, listaImpresoras);
-                        rep=false;
-                        break;
-
-                    case "3":
-                        System.out.println("ingresa el id de tu cita a cancelar");
-                        String idCitaPropia=sc.nextLine();
-                        administrador.cancelar(listaCitas,idCitaPropia);
-                        rep=false;
-                        break;
-                    case "4":
-
-                        System.out.print("Escribe el mensaje del anuncio: ");
-                        String mensaje = sc.nextLine();
-
-                        LocalDateTime fechaInicio = null;
-                        while (true) {
-                            try {
-                                System.out.println("Ingrese la fecha y hora de inicio (formato: yyyy-MM-dd HH:mm):");
-                                String fechaStr = sc.nextLine();
-                                fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
-
-                                if (!Evento.validarFecha(fechaInicio)) {
-                                    System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
-                                } else {
-                                    break; // fecha válida
-                                }
-                            } catch (Exception e) {
-                                System.out.println("Formato de fecha inválido. Intente nuevamente.");
-                            }
-                        }
-
-                        System.out.print("Escribe la duración (en minutos): ");
-                        int duracion = Integer.parseInt(sc.nextLine());
-
-                        //implementar logica para dar el mensaje a varias personas
-                        System.out.print("indica el lugar del usuario ");
-                        int index = Integer.parseInt(sc.nextLine());
-
-                        administrador.anunciar(mensaje, listaAnuncios, fechaInicio, duracion, listaUsuarios[index]);
-
-                        System.out.println("Anuncio realizado con exito!");
-                        rep=false;
-                        break;
-
-                    case "5":
-
-                        System.out.print("Ingresa el id de la cita a cancelar: ");
-                        String idCita = sc.nextLine();
-                        administrador.cancelarCitas(listaCitas, idCita);
-                        rep = false;
-                    
-                        break;
-                    case "6":
-                        System.out.println("Ingresa el id de la impresora");
-                        String idImpresora=sc.nextLine();
-                        administrador.cambiarDispo(listaImpresoras,idImpresora);
-                        rep=false;
-                        break;
-                    case "7":
-                        System.out.println("Indica el tope");
-                        int top = Integer.parseInt(sc.nextLine());
-                        administrador.cambiarTopeSemanal(top);
-                        rep = false;
-                        break;
-
-                    case "8":
-                        administrador.agregarImpresora(sc, listaImpresoras);
-                        rep=false;
-                        break;
-                    case "9":
-                        administrador.getMisCitas(listaCitas);
-                        rep=false;
-                        break;
-                    case "10":
-                        return;
-                    default:
-                        System.out.println("Opción no válida.");
-                        rep=false;
-                        break;
-                }
-            }
-
-
-        }
-
+    public static void main(String[] args) {
+      Gestor.inicio();
     }
 }

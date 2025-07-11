@@ -1,0 +1,6 @@
+TODO
+sqlite-jdbc-3.50.2.0.jar
+json-java.jar
+*.class
+database.db
+run.sh

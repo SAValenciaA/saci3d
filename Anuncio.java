@@ -1,34 +1,21 @@
-
 import java.time.LocalDateTime;
+
 public class Anuncio extends Evento{
-    private String mensajeContenido;
+    public final String mensaje;
+    public final LocalDateTime fechaFin;
 
     //Constructor principal
 
-    public Anuncio(String mensajeContenido,LocalDateTime fechaInicio,int duracion,Usuario destinatario) {
-        super(fechaInicio,destinatario,duracion);
-        this.mensajeContenido = mensajeContenido;
-    }
-
-    // otro tipo de anuncio (constructor sobre escrito)
-
-    public Anuncio(String mensajeContenido,LocalDateTime fechaInicio,int duracion) {
-        super(fechaInicio,null,duracion);
-        this.mensajeContenido = mensajeContenido;
+    public Anuncio(String mensaje,LocalDateTime fechaInicio,LocalDateTime fechaFin, String creador) {
+        super(fechaInicio,creador);
+        this.mensaje = mensaje;
+        this.fechaFin = fechaFin;
     }
 
     // tostring get y set
 
     @Override
     public String toString() {
-        return "Anuncio: " + mensajeContenido;
-    }
-    
-    public String getMensajeContenido() {
-        return mensajeContenido;
-    }
-
-    public void setMensajeContenido(String mensajeContenido) {
-        this.mensajeContenido = mensajeContenido;
+        return "Anuncio: " + mensaje;
     }
 }
