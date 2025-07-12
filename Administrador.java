@@ -35,9 +35,9 @@ public class Administrador extends Usuario  {
 
       // Denuevo, bastante feo, pero funciona
       // Esto busca la cita que se esta eliminando y se elimina
-      for(Cita cita: Cita.citas) {
+      for(Cita cita: Cita.getCitas()) {
         if(cita.id == id){
-          Cita.citas.remove(cita);
+          Cita.getCitas().remove(cita);
           return;
         }
       }

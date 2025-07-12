@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -36,7 +37,7 @@ public class Database {
     ")";
 
   static final String CREATE_IMPRESORAS_IF_NOT_EXITS = 
-    "create table if not exists impresora (" +
+    "create table if not exists impresoras (" +
         "id integer," +
         "disponible integer," + 
         "filamento integer," + 
@@ -99,7 +100,7 @@ public class Database {
    *
    * @return Eventos encontrados
   */
-  public static ArrayList<Evento> selectEvents(String table, String query) throws SQLException{
+  public static ResultSet selectEvents(String table, String query) throws SQLException{
 
     if(!table.equals(CITAS) && table.equals(ANUNCIOS)) {
       throw new IllegalArgumentException("La tabla '" + table + "' no es considerada valida");
@@ -108,27 +109,55 @@ public class Database {
       throw new IllegalArgumentException("La query no puede estar vacia");
     }
 
-    ResultSet result = statement.executeQuery("select " + query + " from " + table);
-    ArrayList<Evento> eventos = new ArrayList<Evento>();
+    ResultSet result = null;
+    try {
+      result = statement.executeQuery("select " + query + " from " + table);
+    } catch(NullPointerException e) {
+      // do nothing
+    }
 
-    while(result.next()) {
-      eventos.add(
-        table.equals(CITAS)? 
+    return result;
+  }
+
+  public static ArrayList<Cita> selectCitas(String query) throws SQLException{
+    ResultSet citasList = selectEvents(Database.CITAS, query);
+    ArrayList<Cita> citas = new ArrayList<Cita>();
+    if(citasList == null) {
+      return citas;
+    }
+    while(citasList.next()) {
+      citas.add(
         new Cita(
-          result.getInt("impresora"), 
-          result.getInt("peso"), 
-          Gestor.parseTime(result.getString("fechaInicio")),
-          result.getInt("duracion"),
-          result.getString("creador"))
-        :
-        new Anuncio(
-          result.getString("mensaje"),
-          Gestor.parseTime(result.getString("fechaInicio")),
-          Gestor.parseTime(result.getString("fechaFinal")),
-          result.getString("creador"))
+          citasList.getInt("impresora"), 
+          citasList.getInt("peso"), 
+          Gestor.parseTime(citasList.getString("fechaInicio")),
+          citasList.getInt("duracion"),
+          citasList.getString("creador")
+        )
       );
     }
-    return eventos;
+    return citas;
+  }
+
+  public static ArrayList<Anuncio> selectAnuncios(String query) throws SQLException{
+    ResultSet anunciosList = selectEvents(Database.ANUNCIOS ,query);
+    ArrayList<Anuncio> anuncios = new ArrayList<Anuncio>();
+
+    if(anunciosList == null) {
+      return anuncios;
+    }
+
+    while(anunciosList.next()) {
+      anuncios.add(
+        new Anuncio(
+          anunciosList.getString("mensaje"),
+          Gestor.parseTime(anunciosList.getString("fechaInicio")),
+          Gestor.parseTime(anunciosList.getString("fechaFinal")),
+          anunciosList.getString("creador")
+        )
+      );
+    }
+    return anuncios;
   }
 
   /*
@@ -163,19 +192,28 @@ public class Database {
    *
    *  @return La lista de impresoras disponibles o no disponibles
    */
-  public static ArrayList<Impresora> loadPrinters() throws SQLException{
+  public static ArrayList<Impresora> loadPrinters(){
 
     ArrayList<Impresora> impresoras = new ArrayList<Impresora>();
-    ResultSet result = statement.executeQuery("select * from impresoras");
+    ResultSet result = null;
+    try{
+      result = statement.executeQuery("select * from impresoras");
 
-    while(result.next()) {
-      impresoras.add(new Impresora(
-                          result.getInt("id"), 
-                          (double)result.getInt("filamento"),
-                          result.getInt("disponibilidad") == 1,
-                          result.getString("razon")
-                          ));
+      while(result.next()) {
+        impresoras.add(new Impresora(
+                            result.getInt("id"), 
+                            (double)result.getInt("filamento"),
+                            result.getInt("disponibilidad") == 1,
+                            result.getString("razon")
+                            ));
+      }
+
+    } catch(NullPointerException e) {
+      // do nothing
+    } catch(SQLException e) {
+      System.out.println("No hay impresoras...");
     }
+
     return impresoras;
   }
   
@@ -184,12 +222,19 @@ public class Database {
    *
    * @param impresora Es la impresora que se piensa agregar
    */
+
   public static void uploadPrinter(Impresora impresora) throws SQLException{
-    statement.executeUpdate("insert into impresoras values(" +
+    try{
+      statement.executeUpdate("insert into impresoras values(" +
         impresora.idImpresora + ", " +
         (impresora.isDisponible() ? "1" : "0") + ", " +
         (int)impresora.getFilamento() + ", " + // TODO: Implement double
         "'" + impresora.getRazon() + "'" + ")");
+    } catch(SQLException e) {
+      e.printStackTrace(System.err);
+    } catch(Exception e) {
+      e.printStackTrace(System.err);
+    }
   }
 
   /*

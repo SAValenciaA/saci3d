@@ -27,8 +27,8 @@ abstract class Evento {
     
     // funciones de validacion de fechas
 
-    public static boolean validarFecha(LocalDateTime fecha) {
-        return !LocalDateTime.now().isAfter(fecha);
+    public boolean validarFecha() {
+        return !LocalDateTime.now().isAfter(fechaInicio);
     }
 
     public static int createId(LocalDateTime date) {

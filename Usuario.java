@@ -131,8 +131,8 @@ public class Usuario {
 
       ArrayList<Integer> result = new ArrayList<Integer>();
 
-      for(Cita cita : Cita.citas) {
-        if(cita.creador.equals(this.usuario) && Evento.validarFecha(cita.getFechaInicio())) {
+      for(Cita cita : Cita.getCitas()) {
+        if(cita.creador.equals(this.usuario) && cita.validarFecha()) {
           result.add(cita.id);
         }
       }
@@ -151,8 +151,8 @@ public class Usuario {
     public ArrayList<Cita> consultar() {
       ArrayList<Cita> result = null;
 
-      for(Cita cita: Cita.citas){
-          if(Evento.validarFecha(cita.getFechaInicio())){
+      for(Cita cita: Cita.getCitas()){
+          if(cita.validarFecha()){
               result.add(cita);
           }
       }
@@ -186,7 +186,7 @@ public class Usuario {
       // Buscar impresoras
       Impresora impresoraAsignada = null;
 
-      for (Impresora imp : Impresora.getImpresoras()) {
+      for (Impresora imp : Impresora.impresoras) {
           if (imp.getFilamento() >= filamento && imp.isDisponible()) {
               impresoraAsignada = imp;
               break;
@@ -233,9 +233,9 @@ public class Usuario {
 
       // Denuevo, bastante feo, pero funciona
       // Esto busca la cita que se esta eliminando y se elimina
-      for(Cita cita: Cita.citas) {
+      for(Cita cita: Cita.getCitas()) {
         if(cita.id == id && cita.creador.equals(this.usuario)){
-          Cita.citas.remove(cita);
+          Cita.getCitas().remove(cita);
           return;
         }
       }

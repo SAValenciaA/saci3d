@@ -36,7 +36,7 @@ public class Gestor {
               fechaStr = sc.nextLine();
               fechaInicio = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
-              if (!Cita.validarFecha(fechaInicio)) {
+              if (LocalDateTime.now().isAfter(fechaInicio)) {
                   System.out.println("La fecha ingresada ya pasó. Intente con una fecha futura.");
                   continue;
               } 
@@ -71,7 +71,7 @@ public class Gestor {
             usuario = Usuario.iniciarSesion(username, password);
 
             if(usuario != null){
-                mostrarMenu();
+                elegirOpcion();
                 break;
             }
 
@@ -83,10 +83,8 @@ public class Gestor {
     /*
      * Esta funcion le muestra al usuario las opciones que 
      * puede elegir acorde al tipo de usuario que es
-     *
-     * @return opcion elegida
      */
-    public static int elegirOpcion() {
+    public static void elegirOpcion() {
       Scanner sc = new Scanner(System.in);
       boolean menu = true;
       String optionString;
@@ -117,12 +115,14 @@ public class Gestor {
 
         System.out.println("q -> Salir");
 
+        System.out.print("Elige: ");
+
         optionString=sc.nextLine();
 
         // Comprueba si el usuario desea salir
         if(optionString.equals("q")) {
           System.out.println("D: Saliendo...");
-          System.exit(0);
+          break;
         }
 
         option = Integer.parseInt(optionString);
@@ -137,18 +137,17 @@ public class Gestor {
           System.out.println("Buen intento hacker!!!");
           continue;
         }
-        return option;
+
+        hacerOpcion(option);
       }
-      return -1;
     }
 
 
     /*
      * Esta funcion ejecuta la orden que el usuario eligio
      */
-    public static void mostrarMenu() {
+    public static void hacerOpcion(int option) {
       LocalDateTime fechaInicio, fechaFin;
-      int option = elegirOpcion();
       int id, duracion;
       double filamento;
 
@@ -264,6 +263,7 @@ public class Gestor {
     }
 
     public static void main(String[] args) {
+      Database.createConnection("database.db");
       Gestor.inicio();
     }
 }

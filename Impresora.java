@@ -6,29 +6,31 @@ public class Impresora{
     private boolean disponible;
     private double filamento;
     private String razon;
-    private static ArrayList<Impresora> impresoras = null;
+    public static ArrayList<Impresora> impresoras = Database.loadPrinters();
 
 
     public Impresora(int id, double filamento, boolean disponible, String razon) throws SQLException{
       // TODO: Make better id following
-        this.idImpresora = id == -1 ? impresoras.size() : id;
-        this.filamento = filamento;
-        this.disponible = true;
-        this.razon = razon;
-        impresoras.add(this);
-        Database.uploadPrinter(this);
+      this.idImpresora = impresoras.size() != 0 ? 
+                          impresoras
+                            .get(impresoras.size() - 1)
+                            .idImpresora :
+                          0;
+
+      this.filamento = filamento;
+      this.disponible = true;
+      this.razon = razon;
+      impresoras.add(this);
+      Database.uploadPrinter(this);
     }
     
-    public static ArrayList<Impresora> getImpresoras() {
-
-      try {
-        impresoras = impresoras == null ? 
-                     Database.loadPrinters() : impresoras;
-      } catch(SQLException e) {
-        System.out.println("Database error");
-        System.out.println(e);
+    public static Impresora getImpresora(int id){
+      for(Impresora impresora : impresoras) {
+        if(id == impresora.idImpresora) {
+          return impresora;
+        }
       }
-      return impresoras;
+      return null;
     }
 
     public double getFilamento(){

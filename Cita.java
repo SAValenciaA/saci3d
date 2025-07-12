@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Cita extends Evento  {
@@ -6,7 +7,7 @@ public class Cita extends Evento  {
   public int numImpresora;
   public final double pesoFilamento;
   public int duracion;
-  public static ArrayList<Cita> citas = (ArrayList<Cita>)Database.selectEvents(Database.CITAS, "*");
+  private static ArrayList<Cita> citas = null;
 
     // Constructor
     public Cita(int numImpresora, double pesoFilamento, LocalDateTime fechaInicio, int duracion,String creador) {
@@ -15,14 +16,20 @@ public class Cita extends Evento  {
         this.pesoFilamento = pesoFilamento;
         this.duracion = duracion;
         
-        Impresora.minusFila(pesoFilamento);
+        Impresora.getImpresora(numImpresora).agendarCita(this);
 
         citas.add(this);
-
     }
     
-    // getters
 
+    public static ArrayList<Cita> getCitas() {
+      try {
+        citas = citas == null ? Database.selectCitas("*") : citas;
+      } catch(SQLException e) {
+        System.out.println(e);
+      }
+      return citas;
+    }
     public int getNumImpresora() {
         return numImpresora;
     }
@@ -37,30 +44,12 @@ public class Cita extends Evento  {
      * 
      * @param 
      */
-    public static boolean seSuperponeCon(LocalDateTime inicioNueva, LocalDateTime finNueva) {
-        LocalDateTime inicioNueva = nueva.getFechaInicio();
-        LocalDateTime finNueva = nueva.getFechaInicio.plusMinutes(nueve.duracion);
-
-        for (Cita vieja : this.citas) {
-          LocalDateTime inicioVieja = vieja.getFechaInicio();
-          LocalDateTime finVieja = vieja.plusMinutes(existente.duracion);
-
-          // Verifica superposición
-          if (inicioVieja.isBefore(finNueva) 
-              && inicioNueva.isBefore(finVieja)
-              && vieja.numImpresora == nueva.numImpresora) {
-              return true;
-          }
-        }
-        return false;
-      }
-
     public static boolean seSuperpone(LocalDateTime nuevaInicio, LocalDateTime nuevaFin) {
-      for (Cita c : listaCitas) {
-          if (c == null || !c.getEstado()) continue;  // Ignora citas eliminadas o pasadas
+      for (Cita c : citas) {
+          if (c == null || !c.validarFecha()) continue;  // Ignora citas eliminadas o pasadas
 
           LocalDateTime inicioExistente = c.getFechaInicio();
-          LocalDateTime finExistente = c.getFechaFinal();
+          LocalDateTime finExistente = inicioExistente.plusMinutes(c.duracion);
 
           // Se superponen si ambos intervalos se cruzan
           if (nuevaInicio.isBefore(finExistente) && nuevaFin.isAfter(inicioExistente)) {
@@ -73,8 +62,7 @@ public class Cita extends Evento  {
     //toString
     @Override
     public String toString() {
-        actualizarEstado(); 
-        return getCreador() + " " + getFechaInicio() + " " + "Hasta: " + getFechaFinal()+ " " + getId() + "\n";
+        return id + ": " + creador + " " + fechaInicio + " " + "Duracion: " + duracion + "\n";
     }
 
 
