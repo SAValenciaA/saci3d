@@ -11,7 +11,7 @@ public class Impresora{
 
     public Impresora(int id, double filamento, boolean disponible, String razon) throws SQLException{
       // TODO: Make better id following
-      this.idImpresora = impresoras.size() != 0 ? 
+      this.idImpresora = impresoras != null && impresoras.size() > 0 ? 
                           impresoras
                             .get(impresoras.size() - 1)
                             .idImpresora :
@@ -20,7 +20,10 @@ public class Impresora{
       this.filamento = filamento;
       this.disponible = true;
       this.razon = razon;
-      impresoras.add(this);
+      if(impresoras == null) {
+        impresoras = new ArrayList<Impresora>();
+        impresoras.add(this);
+      }
       Database.uploadPrinter(this);
     }
     

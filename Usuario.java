@@ -21,7 +21,7 @@ public class Usuario {
     public final String usuario;
     // public final String interfaze; //TODO: Implement functionality
 
-    protected ArrayList<Integer> idCitasAgendadas = null;
+    protected ArrayList<Long> idCitasAgendadas = null;
 
     protected static int tope=1;
     public int topeDiarioUsuario = 0;
@@ -124,12 +124,12 @@ public class Usuario {
      * @return Lista de id's de todas las citas que pertenecen al
      * usuario
      */
-    public ArrayList<Integer> getMisCitas(){
+    public ArrayList<Long> getMisCitas(){
       if(this.idCitasAgendadas != null) {
         return this.idCitasAgendadas;
       }
 
-      ArrayList<Integer> result = new ArrayList<Integer>();
+      ArrayList<Long> result = new ArrayList<Long>();
 
       for(Cita cita : Cita.getCitas()) {
         if(cita.creador.equals(this.usuario) && cita.validarFecha()) {
@@ -149,7 +149,7 @@ public class Usuario {
      * @return Las citas no vencidas del usuario
      */
     public ArrayList<Cita> consultar() {
-      ArrayList<Cita> result = null;
+      ArrayList<Cita> result = new ArrayList<Cita>();
 
       for(Cita cita: Cita.getCitas()){
           if(cita.validarFecha()){
@@ -189,9 +189,12 @@ public class Usuario {
       for (Impresora imp : Impresora.impresoras) {
           if (imp.getFilamento() >= filamento && imp.isDisponible()) {
               impresoraAsignada = imp;
+              System.out.println(impresoraAsignada);
               break;
           }
       }
+
+      System.out.println(impresoraAsignada);
 
       if (impresoraAsignada == null) {
           System.out.println("No hay impresoras disponibles con suficiente espacio o filamento.");

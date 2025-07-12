@@ -20,7 +20,7 @@ public class Database {
 
   static final String CREATE_CITAS_IF_NOT_EXITS = 
     "create table if not exists citas (" +
-        "id integer," +
+        "id text," +
         "impresora integer," + 
         "peso integer," + 
         "fecha text," + 
@@ -129,7 +129,7 @@ public class Database {
       citas.add(
         new Cita(
           citasList.getInt("impresora"), 
-          citasList.getInt("peso"), 
+          citasList.getInt("peso"),
           Gestor.parseTime(citasList.getString("fechaInicio")),
           citasList.getInt("duracion"),
           citasList.getString("creador")
@@ -169,9 +169,10 @@ public class Database {
 
     if(evento instanceof Cita) {
       statement.executeUpdate("insert into citas values(" +
-          evento.id + ", " +
+          "'"+evento.id + "', " +
           ((Cita)evento).numImpresora + ", " +
           ((Cita)evento).pesoFilamento + ", " + 
+          ((Cita)evento).fechaInicio + ", " +
           ((Cita)evento).creador + ", " + 
           ((Cita)evento).duracion + ")"
           );
@@ -203,15 +204,19 @@ public class Database {
         impresoras.add(new Impresora(
                             result.getInt("id"), 
                             (double)result.getInt("filamento"),
-                            result.getInt("disponibilidad") == 1,
+                            result.getInt("disponible") == 1,
                             result.getString("razon")
                             ));
       }
 
+      System.out.println("Impresoras cargadas");
+
     } catch(NullPointerException e) {
-      // do nothing
+      e.printStackTrace(System.err);
+      return null;
     } catch(SQLException e) {
       System.out.println("No hay impresoras...");
+      System.out.println(e);
     }
 
     return impresoras;

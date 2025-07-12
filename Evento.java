@@ -4,10 +4,9 @@ import  java.util.ArrayList;
 
 abstract class Evento {
 
-    public final int id;
+    public final long id;
     public final LocalDateTime fechaInicio;
     public final String creador;
-    public static ArrayList<Evento>eventos; 
 
     public static int numEventos=0;
     
@@ -18,7 +17,6 @@ abstract class Evento {
         this.id = Evento.createId(fechaInicio);
         this.fechaInicio=fechaInicio;
         this.creador=creador;
-        eventos.add(this);
     }
 
     public LocalDateTime getFechaInicio(){
@@ -31,9 +29,9 @@ abstract class Evento {
         return !LocalDateTime.now().isAfter(fechaInicio);
     }
 
-    public static int createId(LocalDateTime date) {
+    public static long createId(LocalDateTime date) {
       DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-      return Integer.parseInt(format.format(date));
+      return Long.valueOf(format.format(date));
     }
 
 

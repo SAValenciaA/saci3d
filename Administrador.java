@@ -60,9 +60,4 @@ public class Administrador extends Usuario  {
       return;
     }
 
-    // TODO: Implementar
-    public void agregarImpresora(Scanner sc,  List<Impresora> impresoras){
-      return;
-    }
-
 }

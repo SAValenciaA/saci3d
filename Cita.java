@@ -19,6 +19,11 @@ public class Cita extends Evento  {
         Impresora.getImpresora(numImpresora).agendarCita(this);
 
         citas.add(this);
+        try {
+          Database.uploadEvent(this);
+        } catch(SQLException e) {
+          e.printStackTrace(System.err);
+        }
     }
     
 

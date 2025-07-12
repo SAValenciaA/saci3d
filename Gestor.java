@@ -154,8 +154,15 @@ public class Gestor {
       switch(option) {
         // Consultar que citas hay
         case 1:
-            usuario.consultar();
+          ArrayList<Cita> citas = usuario.consultar();
+          if(citas == null) {
+            System.out.println("No tienes ninguna cita agendada");
             break;
+          }
+          for(Cita cita : citas) {
+            System.out.println(cita);
+          }
+          break;
 
         // Agendar una cita
         case 2:
@@ -254,6 +261,7 @@ public class Gestor {
 
         // Imprimir informe TODO: IMPLEMENTAR
         case 10:
+          //((Administrador)usuario).informe();
           break;
 
         default:

@@ -20,8 +20,9 @@ class Server(BaseHTTPRequestHandler):
         self._set_headers()
         queries = parse_qs(urlparse(self.path).query)
         username = queries['username'][0]
+        password = queries['password'][0]
 
-        result = queryDB(f'select * from users where username=\'{username}\';')
+        result = queryDB(f'select * from users where username=\'{username}\' and password=\'{password}\';')
 
         self.wfile.write(bytes(json.dumps(result),"utf-8"))
 
@@ -36,6 +37,9 @@ def queryDB(query):
 
     if len(rows) > 1:
         return {'result': 'error', 'message': 'More than one user. (weird)'}
+
+    if len(rows) == 0:
+        return {'result': 'fail'}
 
     row = rows[0]
 
