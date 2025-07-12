@@ -23,7 +23,7 @@ public class Administrador extends Usuario  {
      * @param id El id del lemento a eliminar
      */
     @Override
-    public void cancelar(String eleccion,int id) {
+    public void cancelar(String eleccion,long id) {
 
       try{
         Database.delete(eleccion, id);

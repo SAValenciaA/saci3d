@@ -15,6 +15,26 @@ public class Gestor {
       DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
       return LocalDateTime.parse(date, formato);
     }
+    public static String dateFormatter(LocalDateTime date) {
+      DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+      return date.format(formato);
+    }
+
+    /*
+     * This function checks if a string is a number
+     * 
+     * @param str the string to be checked
+     * @return true if it is a number
+     */
+    public static boolean isNumeric(String str) { 
+      try {  
+        Double.parseDouble(str);  
+        return true;
+      } catch(NumberFormatException e){  
+        return false;  
+      }  
+    }
+
     
     /*
      * Esta funcion toma una fecha de un usuario y la valida
@@ -123,6 +143,9 @@ public class Gestor {
         if(optionString.equals("q")) {
           System.out.println("D: Saliendo...");
           break;
+        } else if(! isNumeric(optionString)) {
+          System.out.println("No es una opcion valida");
+          continue;
         }
 
         option = Integer.parseInt(optionString);
@@ -185,12 +208,15 @@ public class Gestor {
         // Cancelar una cita
         case 3:
             System.out.println("ingresa el id de tu cita a cancelar");
-            id=sc.nextInt();
-            usuario.cancelar(Database.CITAS, id);
+            long citaId;
+            citaId=sc.nextLong();
+            usuario.cancelar(Database.CITAS, citaId);
             break;
         // Listar citas del usuario
         case 4:
-            usuario.getMisCitas();
+            for(Cita cita : Cita.getCitas("creador", usuario.usuario)) {
+              System.out.println(cita);
+            }
             break;
         // Anunciar
         case 5:

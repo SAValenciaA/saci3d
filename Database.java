@@ -1,7 +1,6 @@
 // Esta clase es para manejar la base de datos de los Eventos y que el programa funcione
 // con informacion no volatil
 
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.format.*;
 import java.util.*;
 
 public class Database {
@@ -111,7 +109,7 @@ public class Database {
 
     ResultSet result = null;
     try {
-      result = statement.executeQuery("select " + query + " from " + table);
+      result = statement.executeQuery("select " + query + " from " + table + ";");
     } catch(NullPointerException e) {
       // do nothing
     }
@@ -130,7 +128,7 @@ public class Database {
         new Cita(
           citasList.getInt("impresora"), 
           citasList.getInt("peso"),
-          Gestor.parseTime(citasList.getString("fechaInicio")),
+          Gestor.parseTime(citasList.getString("fecha")),
           citasList.getInt("duracion"),
           citasList.getString("creador")
         )
@@ -165,27 +163,25 @@ public class Database {
    *
    * @param evento el evento que se piensa agregar
    */
-  public static void uploadEvent(Evento evento) throws SQLException{
-
-    if(evento instanceof Cita) {
-      statement.executeUpdate("insert into citas values(" +
-          "'"+evento.id + "', " +
-          ((Cita)evento).numImpresora + ", " +
-          ((Cita)evento).pesoFilamento + ", " + 
-          ((Cita)evento).fechaInicio + ", " +
-          ((Cita)evento).creador + ", " + 
-          ((Cita)evento).duracion + ")"
-          );
-      
-    } else if(evento instanceof Anuncio) {
-      statement.executeUpdate("insert into anuncios values(" +
-          evento.id + ", " +
-          ((Anuncio)evento).fechaInicio + ", " +
-          ((Anuncio)evento).fechaFin + ", " +
-          ((Anuncio)evento).creador + ", " + 
-          ((Anuncio)evento).mensaje + ")"
-          );
+  public static void uploadCita(Cita evento) throws SQLException{
+    statement.executeUpdate("insert into citas values(" +
+        "'"+evento.id + "', " + //string
+        evento.numImpresora + ", " +
+        evento.pesoFilamento + ", " + 
+        "'"+Gestor.dateFormatter(evento.fechaInicio) + "', " + //string
+        "'"+evento.creador + "', " +  //string
+        evento.duracion + ")"
+        );
     }
+      
+  public static void uploadAnuncio(Anuncio evento) throws SQLException{
+    statement.executeUpdate("insert into anuncios values(" +
+        evento.id + ", " +
+        (evento).fechaInicio + ", " +
+        (evento).fechaFin + ", " +
+        (evento).creador + ", " + 
+        (evento).mensaje + ")"
+        );
   }
 
   /*
@@ -248,7 +244,7 @@ public class Database {
    * @param table La tabla que se esta seleccionando
    * @param id El id del objeto que se borra
    */
-  public static void delete(String table, int id) throws SQLException{
+  public static void delete(String table, long id) throws SQLException{
     statement.executeUpdate("delete from " + table + " where id=" + id);
   }
 

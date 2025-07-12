@@ -18,15 +18,20 @@ public class Cita extends Evento  {
         
         Impresora.getImpresora(numImpresora).agendarCita(this);
 
-        citas.add(this);
+        if(citas != null) {
+          citas.add(this);
+        }
+
         try {
-          Database.uploadEvent(this);
+          Database.uploadCita(this);
         } catch(SQLException e) {
           e.printStackTrace(System.err);
         }
     }
     
 
+    // Este codigo me quiere hacer vomitar pero ya estamos en el
+    // dia de la entrega
     public static ArrayList<Cita> getCitas() {
       try {
         citas = citas == null ? Database.selectCitas("*") : citas;
@@ -35,6 +40,27 @@ public class Cita extends Evento  {
       }
       return citas;
     }
+    public static ArrayList<Cita> getCitas(String column, String value) {
+      ArrayList<Cita> citasEncontradas = null;
+      try {
+        citasEncontradas = Database.selectCitas(column + "=" + "'"+value+"'");
+      } catch(SQLException e) {
+        System.out.println(e);
+      }
+      return citas;
+      
+    }
+    public static ArrayList<Cita> getCitas(String column, int value) {
+      ArrayList<Cita> citasEncontradas = null;
+      try {
+        citasEncontradas = Database.selectCitas(column + "=" +value);
+      } catch(SQLException e) {
+        System.out.println(e);
+      }
+      return citas;
+      
+    }
+
     public int getNumImpresora() {
         return numImpresora;
     }

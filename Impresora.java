@@ -20,7 +20,7 @@ public class Impresora{
       this.filamento = filamento;
       this.disponible = true;
       this.razon = razon;
-      if(impresoras == null) {
+      if(impresoras == null || impresoras.size() == 0) {
         impresoras = new ArrayList<Impresora>();
         impresoras.add(this);
       }

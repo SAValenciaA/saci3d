@@ -224,7 +224,7 @@ public class Usuario {
      * @param eleccion Es la tabla de la que se elimina
      * @param id El id del lemento a eliminar
      */
-    public void cancelar(String eleccion, int id) {
+    public void cancelar(String eleccion, long id) {
 
       try {
         Database.delete(eleccion, id);
@@ -264,7 +264,7 @@ public class Usuario {
         Anuncio anuncio = new Anuncio(mensaje, fechaInicio, fechaFin, this.usuario);
 
         try {
-          Database.uploadEvent(anuncio);
+          Database.uploadAnuncio(anuncio);
         } catch(Exception e) {
           System.out.println(e);
         }
