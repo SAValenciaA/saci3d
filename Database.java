@@ -18,7 +18,7 @@ public class Database {
 
   static final String CREATE_CITAS_IF_NOT_EXITS = 
     "create table if not exists citas (" +
-        "id text," +
+        "id text unique," +
         "impresora integer," + 
         "peso integer," + 
         "fecha text," + 
@@ -27,7 +27,7 @@ public class Database {
     ")";
   static final String CREATE_ANUNCIOS_IF_NOT_EXITS = 
     "create table if not exists anuncios (" +
-        "id integer," +
+        "id integer unique," +
         "fechaInicio text," + 
         "fechaFin text," + 
         "creador text," +
@@ -36,7 +36,7 @@ public class Database {
 
   static final String CREATE_IMPRESORAS_IF_NOT_EXITS = 
     "create table if not exists impresoras (" +
-        "id integer," +
+        "id integer unique," +
         "disponible integer," + 
         "filamento integer," + 
         "razon text" +
@@ -130,7 +130,8 @@ public class Database {
           citasList.getInt("peso"),
           Gestor.parseTime(citasList.getString("fecha")),
           citasList.getInt("duracion"),
-          citasList.getString("creador")
+          citasList.getString("creador"),
+          true
         )
       );
     }

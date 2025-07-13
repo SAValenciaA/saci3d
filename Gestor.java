@@ -177,9 +177,9 @@ public class Gestor {
       switch(option) {
         // Consultar que citas hay
         case 1:
-          ArrayList<Cita> citas = usuario.consultar();
+          ArrayList<Cita> citas = Cita.getCitasValidas();
           if(citas == null) {
-            System.out.println("No tienes ninguna cita agendada");
+            System.out.println("No hay citas agendadas");
             break;
           }
           for(Cita cita : citas) {
@@ -214,7 +214,12 @@ public class Gestor {
             break;
         // Listar citas del usuario
         case 4:
-            for(Cita cita : Cita.getCitas("creador", usuario.usuario)) {
+            ArrayList<Cita> userCitas = Cita.getCitasByName(usuario.usuario);
+            if(userCitas.size() == 0) {
+              System.out.println("No tienes citas agendadas.");
+              break;
+            }
+            for(Cita cita : userCitas) {
               System.out.println(cita);
             }
             break;

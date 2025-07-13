@@ -25,7 +25,7 @@ public class Usuario {
 
     protected static int tope=1;
     public int topeDiarioUsuario = 0;
-    protected static int topeDiario = 60;
+    protected static int topeDiario = 60*4; // 4 horas
 
     // Constructor
     public Usuario(String id, String nombre, String usuario) {
@@ -92,7 +92,7 @@ public class Usuario {
       }
 
       // TODO: feisimo, redundante, arreglalo mas tarde
-      if(body.getString("rol").equals("estudiante")) {
+      if(body.getString("rol").equals("student")) {
         sesion = new Usuario(
                       body.getInt("id")+"",
                       body.getString("name"),
@@ -104,7 +104,7 @@ public class Usuario {
                       body.getString("name"),
                       body.getString("username")
                      );
-      } else if (body.getString("rol").equals("administrador")) {
+      } else if (body.getString("rol").equals("administrator")) {
         sesion = new Administrador(
                       body.getInt("id")+"",
                       body.getString("name"),
@@ -144,24 +144,6 @@ public class Usuario {
 
 
     /*
-     * Esta funcion busca las citas validas al momento
-     *
-     * @return Las citas no vencidas del usuario
-     */
-    public ArrayList<Cita> consultar() {
-      ArrayList<Cita> result = new ArrayList<Cita>();
-
-      for(Cita cita: Cita.getCitas()){
-          if(cita.validarFecha()){
-              result.add(cita);
-          }
-      }
-
-      return result;
-        
-    }
-
-    /*
      * Esta funcion es para agregar citas
      *
      * @param fechaInicio La fecha en la que empieza la cita
@@ -174,7 +156,7 @@ public class Usuario {
     public boolean agendar(LocalDateTime fechaInicio, int duracion, double filamento) {
 
       // Verificar datos
-      if(idCitasAgendadas.size() >= Usuario.tope || topeDiarioUsuario + duracion >= topeDiario) {
+      if(idCitasAgendadas.size() >= Usuario.tope || topeDiarioUsuario + duracion > topeDiario) {
         System.out.println("Ya llegaste al tope de citas diarias o por usuario");
         return false;
       }

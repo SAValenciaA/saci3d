@@ -22,7 +22,9 @@ class Server(BaseHTTPRequestHandler):
         username = queries['username'][0]
         password = queries['password'][0]
 
-        result = queryDB(f'select * from users where username=\'{username}\' and password=\'{password}\';')
+        result = queryDB(f'select * from users where username==\'{username}\' and password==\'{password}\';')
+
+        print(result)
 
         self.wfile.write(bytes(json.dumps(result),"utf-8"))
 
