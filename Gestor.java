@@ -258,6 +258,7 @@ public class Gestor {
             }
 
             break;
+
         // cancelar cita
         case 8:
           while(true) {

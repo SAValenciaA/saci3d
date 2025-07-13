@@ -152,7 +152,8 @@ public class Database {
           anunciosList.getString("mensaje"),
           Gestor.parseTime(anunciosList.getString("fechaInicio")),
           Gestor.parseTime(anunciosList.getString("fechaFinal")),
-          anunciosList.getString("creador")
+          anunciosList.getString("creador"),
+          true
         )
       );
     }
@@ -175,13 +176,13 @@ public class Database {
         );
     }
       
-  public static void uploadAnuncio(Anuncio evento) throws SQLException{
+  public static void uploadAnuncio(Anuncio anuncio) throws SQLException{
     statement.executeUpdate("insert into anuncios values(" +
-        evento.id + ", " +
-        (evento).fechaInicio + ", " +
-        (evento).fechaFin + ", " +
-        (evento).creador + ", " + 
-        (evento).mensaje + ")"
+        "'" + anuncio.id + "', " +
+        "'"+Gestor.dateFormatter(anuncio.fechaInicio) + "', " +
+        "'"+Gestor.dateFormatter(anuncio.fechaFin) + "', " +
+        "'"+anuncio.creador+"'" + ", " + 
+        "'"+anuncio.mensaje+"'" + ")"
         );
   }
 
