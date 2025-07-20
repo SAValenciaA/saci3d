@@ -1,0 +1,75 @@
+@startuml
+' base abstract class
+abstract class evento {
+    - long id
+    - date fechainicio
+    - string creador
+    + date getfechainicio()
+    + boolean validarfecha()
+    + static long createid()
+}
+
+class cita {
+    - int numimpresora
+    - double pesofilamento
+    - int duracion
+    - static arraylist<cita> citas
+    + int getnumimpresora()
+    + double getpesoengramos()
+    + static array getcitas()
+    + static array getcitasbyname()
+    + static array getcitasvalidas()
+    + static boolean sesuperpone()
+}
+class anuncio {
+    +string mensaje
+    +date fechafin
+    -static array anuncios
+    +anuncio()
+    +anuncio()
+    +static array getanuncios()
+    +static array getanunciosvalidos()
+    +string tostring()
+}
+
+
+class usuario {
+    + string rol
+    + final string id
+    + final string nombre
+    + final string usuario
+    - array idcitasagendadas
+    - static int tope
+    + int topediariousuario
+    - static int topediario
+    + static usuario iniciarsesion()
+    + array getmiscitas()
+    + boolean agendar()
+    + void cancelar()
+    + void anunciar()
+}
+
+class administrador {
+    + void cancelar()
+    + void cambiardispo()
+    + void cambiartopesemanal()
+    + void cambiartopediario()
+}
+
+class database {
+    + static void createconnection()
+    + static resultset selectevents()
+    + static array selectcitas()
+    + static array selectanuncios()
+    + static void uploadcita()
+    + static void uploadanuncio()
+    + static array loadprinters()
+    + static void uploadprinter()
+    + static void delete()
+}
+
+' relationships
+evento <|-- cita
+evento <|-- anuncio
+usuario <|-- administrador
+@enduml
