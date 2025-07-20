@@ -1,0 +1,19 @@
+- Vista de estudiante
+    - Horario 
+      - Presionar en el horario y que deje agendar citas Sergio
+    - Cancelar citas
+      - Listado normal de las citas de los usuarios Sergio
+
+- Vista de admin
+
+    - Panel de cada opcion Sergio
+
+        -Listado JPanel panel() -> Jpanel
+          - Cancelar Yohan
+          - agregar impresoras Alejandro
+          - impresoras Yohan
+          - ver impresoras Alejandro
+          - hacer anuncios Yohan
+          
+        -Funcionalidades de cada uno Sergio
+
