@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GraphicInterface {
     static CardLayout cardLayout;
@@ -24,6 +25,10 @@ public class GraphicInterface {
 
         frame.add(mainPanel);
         frame.setVisible(true);
+    }
+
+    public static void startPanel() {
+      
     }
 
     public void message(String message, String type) {
@@ -108,21 +113,29 @@ public class GraphicInterface {
 
     static JPanel adminPanel() {
 
+        // TODO: Make this whole dashboard panel a card that 
+        // can be not shown
         JPanel panel = new JPanel(new BorderLayout());
-        JButton CancelButton = new JButton("Cancelar citas");
-        JButton PrintersButton = new JButton("Disponibilidad de impresoras");
-        JButton AddPrinterButton = new JButton("Agregar impresoras");
-        JButton NoticeButton = new JButton("Publicar anuncios");
 
         JPanel sidebar = new JPanel(new GridLayout(4, 1));
-        sidebar.add(CancelButton);
-        sidebar.add(PrintersButton);
-        sidebar.add(AddPrinterButton);
-        sidebar.add(NoticeButton);
 
-        // TODO: Hacer esto otro CardLayout para las opciones arriba.
-        JPanel centerPanel = new JPanel();
-        centerPanel.add(new JLabel("Panel de administrador - contenido aquí"));
+        JPanel centerPanel = new JPanel(new CardLayout());
+
+        Map<String, JButton> adminButtons = Buttons.adminPanel();
+
+        adminButtons.forEach((nameButton, button) -> {
+          centerPanel.add(
+              new JLabel("Panel " + nameButton), 
+              nameButton);
+
+          button.addActionListener((e) -> {
+            CardLayout card = (CardLayout) (centerPanel.getLayout());
+            card.show(centerPanel, nameButton);
+          });
+
+          sidebar.add(button);
+
+        });
 
         // TODO: una funcion para esto tal vez sea lo mejor
         JButton logout = new JButton("Salir");
