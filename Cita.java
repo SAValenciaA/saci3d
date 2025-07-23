@@ -16,7 +16,6 @@ public class Cita extends Evento  {
       this.duracion = duracion;
 
       if(!redundant) {
-        Impresora.getImpresora(numImpresora).agendarCita(this);
         if(citas != null) {
           citas.add(this);
         }
@@ -28,6 +27,14 @@ public class Cita extends Evento  {
         }
       }
     }
+
+    
+    // Getters para acceder a los datos de la cita
+    public String getId() { return id; }
+    public String getUsuario() { return usuario; }
+    public LocalDateTime getFecha() { return fechaInicio; }
+    public String getDuracion() { return duracion; }
+
 
     /*
      * Este overloading del constructor es para hacer que la variable

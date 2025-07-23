@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
+// Lo juro, tenia un mejor plan para esta clase pero no hay
+// tiempo
 public class Buttons {
 
   public static HashMap<String, JButton> adminPanel() {
